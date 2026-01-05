@@ -4,6 +4,8 @@ import { useSocket } from './hooks/useSocket';
 import { PairingScreen } from './components/PairingScreen';
 import { DPadController } from './components/DPadController';
 import { TrackpadController } from './components/TrackpadController';
+import { GamepadController } from './components/GamepadController';
+import { HybridController } from './components/HybridController';
 import { ControllerSelector } from './components/ControllerSelector';
 
 function App() {
@@ -15,7 +17,7 @@ function App() {
   // Load controller mode preference from localStorage
   useEffect(() => {
     const savedMode = localStorage.getItem('controllerMode') as ControllerMode;
-    if (savedMode === 'dpad' || savedMode === 'trackpad') {
+    if (savedMode === 'dpad' || savedMode === 'trackpad' || savedMode === 'gamepad' || savedMode === 'hybrid') {
       setControllerMode(savedMode);
     }
   }, []);
@@ -104,10 +106,17 @@ function App() {
     <div className="relative w-full h-full">
       <ControllerSelector mode={controllerMode} onModeChange={handleModeChange} roomCode={roomCode} />
       <div className="h-full pt-16">
-        {controllerMode === 'dpad' ? (
+        {controllerMode === 'dpad' && (
           <DPadController onNavigate={handleNavigate} onAction={handleAction} />
-        ) : (
+        )}
+        {controllerMode === 'trackpad' && (
           <TrackpadController onNavigate={handleNavigate} onAction={handleAction} />
+        )}
+        {controllerMode === 'gamepad' && (
+          <GamepadController onNavigate={handleNavigate} onAction={handleAction} />
+        )}
+        {controllerMode === 'hybrid' && (
+          <HybridController onNavigate={handleNavigate} onAction={handleAction} />
         )}
       </div>
     </div>

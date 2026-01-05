@@ -15,14 +15,10 @@ export function ControllerSelector({ mode, onModeChange, roomCode }: ControllerS
   };
 
   return (
-    <div className="absolute top-0 left-0 right-0 bg-gray-800/95 backdrop-blur-md px-6 py-4 border-b-2 border-gray-700 z-10">
+    <div className="absolute top-0 left-0 right-0 bg-gray-800/95 backdrop-blur-md px-4 py-3 border-b-2 border-gray-700 z-10">
       <div className="flex items-center justify-between">
-        <div className="flex items-center gap-3">
+        <div className="flex items-center">
           <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
-          <div className="text-white text-sm">
-            <span className="text-gray-400">Connected:</span>{' '}
-            <span className="font-mono font-bold">{roomCode}</span>
-          </div>
         </div>
 
         <div className="flex gap-2 bg-gray-900 rounded-lg p-1">
@@ -51,6 +47,32 @@ export function ControllerSelector({ mode, onModeChange, roomCode }: ControllerS
             `}
           >
             Trackpad
+          </button>
+          <button
+            onClick={() => handleModeChange('gamepad')}
+            className={`
+              px-4 py-2 rounded-md text-sm font-semibold transition-all
+              ${
+                mode === 'gamepad'
+                  ? 'bg-blue-600 text-white'
+                  : 'text-gray-400 hover:text-white'
+              }
+            `}
+          >
+            Gamepad
+          </button>
+          <button
+            onClick={() => handleModeChange('hybrid')}
+            className={`
+              px-4 py-2 rounded-md text-sm font-semibold transition-all
+              ${
+                mode === 'hybrid'
+                  ? 'bg-blue-600 text-white'
+                  : 'text-gray-400 hover:text-white'
+              }
+            `}
+          >
+            Hybrid
           </button>
         </div>
       </div>

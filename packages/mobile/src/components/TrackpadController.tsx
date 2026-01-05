@@ -62,11 +62,6 @@ export function TrackpadController({ onNavigate, onAction }: TrackpadControllerP
 
   return (
     <div className="flex flex-col items-center justify-center h-full bg-gray-900 p-8">
-      <div className="mb-8">
-        <h2 className="text-3xl font-bold text-white text-center mb-2">Trackpad Controller</h2>
-        <p className="text-gray-400 text-center">Swipe to navigate, tap for OK</p>
-      </div>
-
       {/* Trackpad Area */}
       <div
         ref={trackpadRef}
