@@ -1,0 +1,22 @@
+{
+  "name": "mobile-lab",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Mobile-to-TV game connection testbed",
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "dev": "concurrently -n server,tv,mobile -c blue,green,yellow \"cd packages/server && npm run dev\" \"cd packages/tv && npm run dev\" \"cd packages/mobile && npm run dev\"",
+    "dev:tv": "cd packages/tv && npm run dev",
+    "dev:mobile": "cd packages/mobile && npm run dev",
+    "dev:server": "cd packages/server && npm run dev",
+    "build": "npm run build --workspaces",
+    "build:tv": "npm run build --workspace=packages/tv",
+    "build:mobile": "npm run build --workspace=packages/mobile",
+    "build:server": "npm run build --workspace=packages/server"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}
