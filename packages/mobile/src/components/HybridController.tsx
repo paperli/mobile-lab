@@ -11,7 +11,6 @@ interface HybridControllerProps {
 export function HybridController({ onNavigate, onAction }: HybridControllerProps) {
   const [lastSwipe, setLastSwipe] = useState<NavigationDirection | null>(null);
   const [showFeedback, setShowFeedback] = useState(false);
-  const [activeEdge, setActiveEdge] = useState<NavigationDirection | null>(null);
 
   const handleSwipe = (direction: NavigationDirection) => {
     setLastSwipe(direction);
@@ -30,9 +29,7 @@ export function HybridController({ onNavigate, onAction }: HybridControllerProps
 
   const handleEdgeClick = (direction: NavigationDirection) => {
     HapticFeedback.light();
-    setActiveEdge(direction);
     onNavigate(direction);
-    setTimeout(() => setActiveEdge(null), 100);
   };
 
   const trackpadRef = useSwipeGestures({
