@@ -3,10 +3,10 @@ import { ControllerMode } from '@mobile-lab/shared';
 import { useSocket } from './hooks/useSocket';
 import { PairingScreen } from './components/PairingScreen';
 import { DPadController } from './components/DPadController';
-import { TrackpadController } from './components/TrackpadController';
+import { JoystickController } from './components/JoystickController';
 import { GamepadController } from './components/GamepadController';
-import { HybridController } from './components/HybridController';
-import { SquareHybridController } from './components/SquareHybridController';
+import { TrackpadController } from './components/TrackpadController';
+import { SquareController } from './components/SquareController';
 import { ControllerSelector } from './components/ControllerSelector';
 
 function App() {
@@ -111,16 +111,16 @@ function App() {
           <DPadController onNavigate={handleNavigate} onAction={handleAction} />
         )}
         {controllerMode === 'trackpad' && (
-          <TrackpadController onNavigate={handleNavigate} onAction={handleAction} />
+          <JoystickController onNavigate={handleNavigate} onAction={handleAction} />
         )}
         {controllerMode === 'gamepad' && (
           <GamepadController onNavigate={handleNavigate} onAction={handleAction} />
         )}
         {controllerMode === 'hybrid' && (
-          <HybridController onNavigate={handleNavigate} onAction={handleAction} />
+          <TrackpadController onNavigate={handleNavigate} onAction={handleAction} />
         )}
         {controllerMode === 'square-hybrid' && (
-          <SquareHybridController onNavigate={handleNavigate} onAction={handleAction} />
+          <SquareController onNavigate={handleNavigate} onAction={handleAction} />
         )}
       </div>
     </div>

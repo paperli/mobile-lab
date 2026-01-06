@@ -4,12 +4,12 @@ import { useSwipeGestures } from '../hooks/useSwipeGestures';
 import { HapticFeedback } from '../utils/haptics';
 import padBackground from '../assets/pad_background_3x.png';
 
-interface SquareHybridControllerProps {
+interface SquareControllerProps {
   onNavigate: (direction: NavigationDirection) => void;
   onAction: (action: NavigationAction) => void;
 }
 
-export function SquareHybridController({ onNavigate, onAction }: SquareHybridControllerProps) {
+export function SquareController({ onNavigate, onAction }: SquareControllerProps) {
   const [lastSwipe, setLastSwipe] = useState<NavigationDirection | null>(null);
   const [showFeedback, setShowFeedback] = useState(false);
 
