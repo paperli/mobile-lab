@@ -88,7 +88,7 @@ export function SquareHybridController({ onNavigate, onAction }: SquareHybridCon
               e.stopPropagation();
               handleEdgeClick('up');
             }}
-            className="absolute top-0 left-0 right-0 h-16 z-10 bg-transparent"
+            className="absolute top-0 left-0 right-0 h-24 z-10 bg-transparent"
           />
 
           {/* Invisible Bottom Edge Zone */}
@@ -98,7 +98,7 @@ export function SquareHybridController({ onNavigate, onAction }: SquareHybridCon
               e.stopPropagation();
               handleEdgeClick('down');
             }}
-            className="absolute bottom-0 left-0 right-0 h-16 z-10 bg-transparent"
+            className="absolute bottom-0 left-0 right-0 h-24 z-10 bg-transparent"
           />
 
           {/* Invisible Left Edge Zone */}
@@ -108,7 +108,7 @@ export function SquareHybridController({ onNavigate, onAction }: SquareHybridCon
               e.stopPropagation();
               handleEdgeClick('left');
             }}
-            className="absolute top-16 bottom-16 left-0 w-16 z-10 bg-transparent"
+            className="absolute top-24 bottom-24 left-0 w-24 z-10 bg-transparent"
           />
 
           {/* Invisible Right Edge Zone */}
@@ -118,13 +118,13 @@ export function SquareHybridController({ onNavigate, onAction }: SquareHybridCon
               e.stopPropagation();
               handleEdgeClick('right');
             }}
-            className="absolute top-16 bottom-16 right-0 w-16 z-10 bg-transparent"
+            className="absolute top-24 bottom-24 right-0 w-24 z-10 bg-transparent"
           />
 
           {/* Central Trackpad Area with swipe and tap */}
           <div
             ref={trackpadRef}
-            className="absolute inset-16 z-0"
+            className="absolute inset-24 z-0"
           >
             {/* Swipe Feedback */}
             <div
