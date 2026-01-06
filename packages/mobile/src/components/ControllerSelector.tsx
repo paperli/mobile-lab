@@ -41,19 +41,6 @@ export function ControllerSelector({ mode, onModeChange }: ControllerSelectorPro
             D-Pad
           </button>
           <button
-            onClick={() => handleModeChange('trackpad')}
-            className={`
-              px-4 py-2 rounded-md text-sm font-semibold transition-all flex-shrink-0
-              ${
-                mode === 'trackpad'
-                  ? 'bg-blue-600 text-white'
-                  : 'text-gray-400 hover:text-white'
-              }
-            `}
-          >
-            Stick
-          </button>
-          <button
             onClick={() => handleModeChange('gamepad')}
             className={`
               px-4 py-2 rounded-md text-sm font-semibold transition-all flex-shrink-0
@@ -91,6 +78,19 @@ export function ControllerSelector({ mode, onModeChange }: ControllerSelectorPro
             `}
           >
             Square
+          </button>
+          <button
+            onClick={() => handleModeChange('trackpad')}
+            className={`
+              px-4 py-2 rounded-md text-sm font-semibold transition-all flex-shrink-0
+              ${
+                mode === 'trackpad'
+                  ? 'bg-blue-600 text-white'
+                  : 'text-gray-400 hover:text-white'
+              }
+            `}
+          >
+            Joystick
           </button>
         </div>
       </div>
