@@ -17,8 +17,6 @@ services:
   - type: web
     name: mobile-lab-tv
     env: static
-    region: oregon
-    plan: free
     buildCommand: npm install && npm run build --workspace=packages/tv
     staticPublishPath: packages/tv/dist
     envVars:
@@ -33,8 +31,6 @@ services:
   - type: web
     name: mobile-lab-mobile
     env: static
-    region: oregon
-    plan: free
     buildCommand: npm install && npm run build --workspace=packages/mobile
     staticPublishPath: packages/mobile/dist
     envVars:
