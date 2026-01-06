@@ -4,10 +4,10 @@ import { HapticFeedback } from '../utils/haptics';
 interface ControllerSelectorProps {
   mode: ControllerMode;
   onModeChange: (mode: ControllerMode) => void;
-  roomCode: string;
+  roomCode?: string; // Optional since we're not displaying it
 }
 
-export function ControllerSelector({ mode, onModeChange, roomCode }: ControllerSelectorProps) {
+export function ControllerSelector({ mode, onModeChange }: ControllerSelectorProps) {
   const handleModeChange = (newMode: ControllerMode) => {
     // Haptic feedback when switching modes
     HapticFeedback.light();

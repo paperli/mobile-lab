@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useState } from 'react';
 import { NavigationDirection, NavigationAction } from '@mobile-lab/shared';
 import { useSwipeGestures } from '../hooks/useSwipeGestures';
 import { HapticFeedback } from '../utils/haptics';
@@ -67,14 +67,6 @@ export function HybridController({ onNavigate, onAction }: HybridControllerProps
 
     return icons[lastSwipe];
   };
-
-  const edgeButtonClasses = (direction: NavigationDirection) => `
-    flex items-center justify-center
-    bg-gray-700 text-gray-400 text-2xl font-bold
-    transition-all duration-100
-    select-none touch-none
-    ${activeEdge === direction ? 'bg-gray-500 scale-95' : 'active:bg-gray-600 active:scale-95'}
-  `;
 
   return (
     <div className="flex flex-col items-center justify-center h-full bg-gray-900 p-8">

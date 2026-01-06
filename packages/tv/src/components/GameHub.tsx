@@ -1,4 +1,3 @@
-import { useState, useCallback } from 'react';
 import { PLACEHOLDER_GAMES, GameData, NavigationDirection, NavigationAction } from '@mobile-lab/shared';
 import { GameTile } from './GameTile';
 import { GamePreview } from './GamePreview';
