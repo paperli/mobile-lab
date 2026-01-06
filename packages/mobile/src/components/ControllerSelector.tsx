@@ -46,7 +46,7 @@ export function ControllerSelector({ mode, onModeChange }: ControllerSelectorPro
               }
             `}
           >
-            Joy
+            Stick
           </button>
           <button
             onClick={() => handleModeChange('gamepad')}
@@ -72,7 +72,7 @@ export function ControllerSelector({ mode, onModeChange }: ControllerSelectorPro
               }
             `}
           >
-            Hybrid
+            Trackpad
           </button>
           <button
             onClick={() => handleModeChange('square-hybrid')}
