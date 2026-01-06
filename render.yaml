@@ -1,0 +1,46 @@
+services:
+  # Backend Server
+  - type: web
+    name: mobile-lab-server
+    env: node
+    region: oregon
+    plan: free
+    buildCommand: npm install && npm run build --workspace=packages/server && npm run build --workspace=packages/shared
+    startCommand: cd packages/server && npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: ALLOWED_ORIGINS
+        sync: false
+
+  # TV Frontend
+  - type: web
+    name: mobile-lab-tv
+    env: static
+    region: oregon
+    plan: free
+    buildCommand: npm install && npm run build --workspace=packages/tv
+    staticPublishPath: packages/tv/dist
+    envVars:
+      - key: VITE_SERVER_URL
+        sync: false
+    headers:
+      - path: /*
+        name: Cache-Control
+        value: public, max-age=3600
+
+  # Mobile Frontend
+  - type: web
+    name: mobile-lab-mobile
+    env: static
+    region: oregon
+    plan: free
+    buildCommand: npm install && npm run build --workspace=packages/mobile
+    staticPublishPath: packages/mobile/dist
+    envVars:
+      - key: VITE_SERVER_URL
+        sync: false
+    headers:
+      - path: /*
+        name: Cache-Control
+        value: public, max-age=3600

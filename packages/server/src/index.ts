@@ -9,10 +9,19 @@ import { CONFIG } from '@mobile-lab/shared';
 const app = express();
 const httpServer = createServer(app);
 
+// Get allowed origins from environment or use defaults
+const getAllowedOrigins = () => {
+  if (process.env.ALLOWED_ORIGINS) {
+    return process.env.ALLOWED_ORIGINS.split(',');
+  }
+  // Default local origins for development
+  return ['http://localhost:5173', 'http://localhost:5174', 'http://localhost:5175', 'http://localhost:5176'];
+};
+
 // Configure CORS for Socket.io
 const io = new Server(httpServer, {
   cors: {
-    origin: ['http://localhost:5173', 'http://localhost:5174'],
+    origin: getAllowedOrigins(),
     methods: ['GET', 'POST'],
     credentials: true,
   },
@@ -44,8 +53,9 @@ setInterval(() => {
 }, 300000);
 
 // Start server
-const PORT = CONFIG.SERVER_PORT;
-httpServer.listen(PORT, () => {
-  console.log(`\n🚀 Mobile Lab Server running on http://localhost:${PORT}`);
-  console.log(`📡 Socket.io ready for connections\n`);
+const PORT = process.env.PORT ? parseInt(process.env.PORT) : CONFIG.SERVER_PORT;
+httpServer.listen(PORT, '0.0.0.0', () => {
+  console.log(`\n🚀 Mobile Lab Server running on port ${PORT}`);
+  console.log(`📡 Socket.io ready for connections`);
+  console.log(`🌐 Allowed origins: ${getAllowedOrigins().join(', ')}\n`);
 });

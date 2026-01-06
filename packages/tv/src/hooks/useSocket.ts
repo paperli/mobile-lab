@@ -24,9 +24,18 @@ export function useSocket(onNavigationInput: (payload: NavigationInputPayload) =
   }, [onNavigationInput]);
 
   useEffect(() => {
-    // Use current hostname to support both localhost and network access
-    const hostname = window.location.hostname;
-    const socketInstance = io(`http://${hostname}:${CONFIG.SERVER_PORT}`, {
+    // Get server URL from environment variable or construct from hostname
+    const getServerUrl = () => {
+      // Use environment variable if available (for production deployment)
+      if (import.meta.env.VITE_SERVER_URL) {
+        return import.meta.env.VITE_SERVER_URL;
+      }
+      // Use current hostname for local network access
+      const hostname = window.location.hostname;
+      return `http://${hostname}:${CONFIG.SERVER_PORT}`;
+    };
+
+    const socketInstance = io(getServerUrl(), {
       transports: ['websocket'],
     });
 
