@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { NavigationDirection, NavigationAction } from '@mobile-lab/shared';
 import { useSwipeGestures } from '../hooks/useSwipeGestures';
 import { HapticFeedback } from '../utils/haptics';
-import padBackground from '../assets/pad_background_3x.png';
+import padBackground from '../assets/pad_background_circular_3x.png';
 
 interface SquareControllerProps {
   onNavigate: (direction: NavigationDirection) => void;
@@ -67,11 +67,11 @@ export function SquareController({ onNavigate, onAction }: SquareControllerProps
   };
 
   return (
-    <div className="flex flex-col items-center justify-center h-full bg-gray-900 p-8">
+    <div className="flex flex-col items-center justify-center h-full bg-gray-900 py-8 px-2">
       {/* Square Trackpad Area with Invisible Edge Zones */}
       <div className="relative w-full max-w-md aspect-square mb-8">
         <div
-          className="relative w-full h-full bg-gray-800 border-4 border-gray-700 overflow-hidden"
+          className="relative w-full h-full overflow-hidden"
           style={{
             touchAction: 'none',
             backgroundImage: `url(${padBackground})`,
