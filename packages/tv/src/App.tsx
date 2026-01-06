@@ -9,7 +9,7 @@ import { GameHub } from './components/GameHub';
 import { useSocket } from './hooks/useSocket';
 
 // Configuration: Enable/disable looping navigation
-const ENABLE_LOOP_NAVIGATION = true;
+const ENABLE_LOOP_NAVIGATION = false;
 
 function App() {
   const [focusedIndex, setFocusedIndex] = useState(0);
