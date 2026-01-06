@@ -8,6 +8,9 @@ import {
 import { GameHub } from './components/GameHub';
 import { useSocket } from './hooks/useSocket';
 
+// Configuration: Enable/disable looping navigation
+const ENABLE_LOOP_NAVIGATION = true;
+
 function App() {
   const [focusedIndex, setFocusedIndex] = useState(0);
   const games = PLACEHOLDER_GAMES;
@@ -16,9 +19,21 @@ function App() {
     setFocusedIndex((current) => {
       switch (direction) {
         case 'left':
-          return Math.max(0, current - 1);
+          if (ENABLE_LOOP_NAVIGATION) {
+            // Loop to last item if at first item
+            return current === 0 ? games.length - 1 : current - 1;
+          } else {
+            // Stop at first item
+            return Math.max(0, current - 1);
+          }
         case 'right':
-          return Math.min(games.length - 1, current + 1);
+          if (ENABLE_LOOP_NAVIGATION) {
+            // Loop to first item if at last item
+            return current === games.length - 1 ? 0 : current + 1;
+          } else {
+            // Stop at last item
+            return Math.min(games.length - 1, current + 1);
+          }
         case 'up':
         case 'down':
           return current;
