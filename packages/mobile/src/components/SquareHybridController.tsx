@@ -71,13 +71,14 @@ export function SquareHybridController({ onNavigate, onAction }: SquareHybridCon
       {/* Square Trackpad Area with Invisible Edge Zones */}
       <div className="relative w-full max-w-md aspect-square mb-8">
         <div
-          className="relative w-full h-full bg-gray-800 rounded-3xl border-4 border-gray-700 overflow-hidden"
+          className="relative w-full h-full bg-gray-800 border-4 border-gray-700 overflow-hidden"
           style={{
             touchAction: 'none',
             backgroundImage: `url(${padBackground})`,
             backgroundSize: 'cover',
             backgroundPosition: 'center',
-            backgroundRepeat: 'no-repeat'
+            backgroundRepeat: 'no-repeat',
+            borderRadius: '64px'
           }}
         >
           {/* Invisible Top Edge Zone */}
