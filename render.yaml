@@ -5,7 +5,7 @@ services:
     env: node
     region: oregon
     plan: free
-    buildCommand: npm install && npm run build --workspace=packages/shared && npm run build --workspace=packages/server
+    buildCommand: npm install --include=dev && npm run build --workspace=packages/shared && npm run build --workspace=packages/server
     startCommand: cd packages/server && npm start
     envVars:
       - key: NODE_ENV
@@ -17,7 +17,7 @@ services:
   - type: web
     name: mobile-lab-tv
     env: static
-    buildCommand: npm install && npm run build --workspace=packages/shared && npm run build --workspace=packages/tv
+    buildCommand: npm install --include=dev && npm run build --workspace=packages/shared && npm run build --workspace=packages/tv
     staticPublishPath: packages/tv/dist
     envVars:
       - key: VITE_SERVER_URL
@@ -31,7 +31,7 @@ services:
   - type: web
     name: mobile-lab-mobile
     env: static
-    buildCommand: npm install && npm run build --workspace=packages/shared && npm run build --workspace=packages/mobile
+    buildCommand: npm install --include=dev && npm run build --workspace=packages/shared && npm run build --workspace=packages/mobile
     staticPublishPath: packages/mobile/dist
     envVars:
       - key: VITE_SERVER_URL
