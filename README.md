@@ -12,9 +12,9 @@ A real-time testbed for experimenting with mobile-to-TV game connection patterns
 
 - **Mobile Controllers**:
   - **Traditional D-Pad**: Button-based crucifix layout with center OK button
-  - **Swipeable Trackpad**: Gesture-based navigation with visual feedback
+  - **Swipeable Joystick**: Gesture-based navigation with visual feedback
   - **Haptic Feedback**: Context-aware vibration patterns (optimized for Android Chrome)
-  - **Mode Switching**: Toggle between D-Pad and Trackpad on the fly
+  - **Mode Switching**: Toggle between D-Pad and Joystick on the fly
 
 - **Real-time Communication**: WebSocket-based connection via Socket.io
   - Stable connections that don't reset on navigation
@@ -101,7 +101,7 @@ npm run dev:mobile
 - Open Chrome or Safari
 - Navigate to your network URL (e.g., `http://192.168.20.40:5174`)
 - Enter the 6-digit pairing code from the TV screen
-- Choose between **D-Pad** or **Trackpad** controller mode
+- Choose between **D-Pad** or **Joystick** controller mode
 
 ### 3. Navigate the Game Hub
 **Using Keyboard (on TV screen):**
@@ -116,7 +116,7 @@ npm run dev:mobile
   - Tap BACK button at bottom
   - Feel haptic feedback on each press (Android Chrome)
 
-- **Trackpad Mode**:
+- **Joystick Mode**:
   - Swipe in any direction to navigate
   - Tap center area for OK action
   - Tap BACK button at bottom
@@ -239,11 +239,11 @@ The testbed is designed to support:
 - Verify both devices are using the same server URL
 - If pairing code keeps changing, hard refresh both screens (Cmd+Shift+R or Ctrl+Shift+R)
 
-**Trackpad gestures not responding:**
+**Joystick gestures not responding:**
 - Swipe with enough distance (40px minimum by default)
 - Try swiping faster for better detection
 - Check that browser isn't capturing gestures (should be disabled automatically)
-- On iOS Safari, try swiping from the center of the trackpad area
+- On iOS Safari, try swiping from the center of the joystick area
 
 **Haptic feedback not working:**
 - Works best on **Android Chrome** (full support)
