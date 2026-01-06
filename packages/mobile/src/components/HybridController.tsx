@@ -71,7 +71,11 @@ export function HybridController({ onNavigate, onAction }: HybridControllerProps
       <div className="relative flex-1 w-full max-w-2xl mb-8">
         <div
           className="relative w-full h-full bg-gray-800 rounded-3xl border-4 border-gray-700 overflow-hidden"
-          style={{ touchAction: 'none' }}
+          style={{
+            touchAction: 'none',
+            backgroundImage: 'radial-gradient(circle, rgba(156, 163, 175, 0.15) 1.5px, transparent 1.5px)',
+            backgroundSize: '24px 24px'
+          }}
         >
           {/* Invisible Top Edge Zone */}
           <button

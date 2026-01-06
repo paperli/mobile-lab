@@ -66,7 +66,11 @@ export function TrackpadController({ onNavigate, onAction }: TrackpadControllerP
       <div
         ref={trackpadRef}
         className="relative flex-1 w-full max-w-2xl bg-gray-800 rounded-3xl border-4 border-gray-700 mb-8 overflow-hidden"
-        style={{ touchAction: 'none' }}
+        style={{
+          touchAction: 'none',
+          backgroundImage: 'radial-gradient(circle, rgba(156, 163, 175, 0.15) 1.5px, transparent 1.5px)',
+          backgroundSize: '24px 24px'
+        }}
       >
         <div className="absolute inset-0 flex items-center justify-center">
           <div className="text-gray-600 text-6xl select-none pointer-events-none">⊕</div>
