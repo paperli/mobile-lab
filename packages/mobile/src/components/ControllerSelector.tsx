@@ -74,6 +74,19 @@ export function ControllerSelector({ mode, onModeChange }: ControllerSelectorPro
           >
             Hybrid
           </button>
+          <button
+            onClick={() => handleModeChange('square-hybrid')}
+            className={`
+              px-4 py-2 rounded-md text-sm font-semibold transition-all
+              ${
+                mode === 'square-hybrid'
+                  ? 'bg-blue-600 text-white'
+                  : 'text-gray-400 hover:text-white'
+              }
+            `}
+          >
+            Square
+          </button>
         </div>
       </div>
     </div>

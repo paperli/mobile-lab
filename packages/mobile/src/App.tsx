@@ -6,6 +6,7 @@ import { DPadController } from './components/DPadController';
 import { TrackpadController } from './components/TrackpadController';
 import { GamepadController } from './components/GamepadController';
 import { HybridController } from './components/HybridController';
+import { SquareHybridController } from './components/SquareHybridController';
 import { ControllerSelector } from './components/ControllerSelector';
 
 function App() {
@@ -17,7 +18,7 @@ function App() {
   // Load controller mode preference from localStorage
   useEffect(() => {
     const savedMode = localStorage.getItem('controllerMode') as ControllerMode;
-    if (savedMode === 'dpad' || savedMode === 'trackpad' || savedMode === 'gamepad' || savedMode === 'hybrid') {
+    if (savedMode === 'dpad' || savedMode === 'trackpad' || savedMode === 'gamepad' || savedMode === 'hybrid' || savedMode === 'square-hybrid') {
       setControllerMode(savedMode);
     }
   }, []);
@@ -117,6 +118,9 @@ function App() {
         )}
         {controllerMode === 'hybrid' && (
           <HybridController onNavigate={handleNavigate} onAction={handleAction} />
+        )}
+        {controllerMode === 'square-hybrid' && (
+          <SquareHybridController onNavigate={handleNavigate} onAction={handleAction} />
         )}
       </div>
     </div>

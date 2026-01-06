@@ -2,7 +2,7 @@
 export type NavigationDirection = 'up' | 'down' | 'left' | 'right';
 export type NavigationAction = 'ok' | 'back';
 export type DeviceType = 'tv' | 'mobile';
-export type ControllerMode = 'dpad' | 'trackpad' | 'gamepad' | 'hybrid';
+export type ControllerMode = 'dpad' | 'trackpad' | 'gamepad' | 'hybrid' | 'square-hybrid';
 
 // Navigation event sent from mobile to TV
 export interface NavigationEvent {
