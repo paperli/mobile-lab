@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { NavigationDirection, NavigationAction } from '@mobile-lab/shared';
 import { useSwipeGestures } from '../hooks/useSwipeGestures';
 import { HapticFeedback } from '../utils/haptics';
+import padBackground from '../assets/pad_background_3x.png';
 
 interface SquareHybridControllerProps {
   onNavigate: (direction: NavigationDirection) => void;
@@ -73,8 +74,10 @@ export function SquareHybridController({ onNavigate, onAction }: SquareHybridCon
           className="relative w-full h-full bg-gray-800 rounded-3xl border-4 border-gray-700 overflow-hidden"
           style={{
             touchAction: 'none',
-            backgroundImage: 'radial-gradient(circle, rgba(156, 163, 175, 0.15) 1.5px, transparent 1.5px)',
-            backgroundSize: '24px 24px'
+            backgroundImage: `url(${padBackground})`,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            backgroundRepeat: 'no-repeat'
           }}
         >
           {/* Invisible Top Edge Zone */}
