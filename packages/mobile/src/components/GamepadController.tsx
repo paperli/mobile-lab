@@ -85,7 +85,7 @@ export function GamepadController({ onNavigate, onAction }: GamepadControllerPro
 
       {/* A and B Buttons */}
       <div className="flex flex-col items-center gap-4 mb-8">
-        {/* A Button (Larger) */}
+        {/* OK Button (Larger) */}
         <button
           onTouchStart={(e) => {
             e.preventDefault();
@@ -101,10 +101,10 @@ export function GamepadController({ onNavigate, onAction }: GamepadControllerPro
             select-none touch-none
           "
         >
-          A
+          OK
         </button>
 
-        {/* B Button (Smaller) */}
+        {/* BACK Button (Smaller) */}
         <button
           onTouchStart={(e) => {
             e.preventDefault();
@@ -120,7 +120,7 @@ export function GamepadController({ onNavigate, onAction }: GamepadControllerPro
             select-none touch-none
           "
         >
-          B
+          BACK
         </button>
       </div>
     </div>
