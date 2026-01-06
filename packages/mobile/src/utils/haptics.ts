@@ -5,22 +5,22 @@
 
 export const HapticFeedback = {
   /**
-   * Light tap feedback (50ms)
+   * Light tap feedback (20ms)
    * Use for: button presses, taps, mode switching
    */
   light: () => {
     if ('vibrate' in navigator) {
-      navigator.vibrate(50);
+      navigator.vibrate(20);
     }
   },
 
   /**
-   * Medium feedback (100ms)
+   * Medium feedback (40ms)
    * Use for: confirmations, successful actions
    */
   medium: () => {
     if ('vibrate' in navigator) {
-      navigator.vibrate(100);
+      navigator.vibrate(40);
     }
   },
 
@@ -30,7 +30,7 @@ export const HapticFeedback = {
    */
   success: () => {
     if ('vibrate' in navigator) {
-      navigator.vibrate([50, 50, 50]);
+      navigator.vibrate([30, 30, 30]);
     }
   },
 
@@ -40,17 +40,17 @@ export const HapticFeedback = {
    */
   error: () => {
     if ('vibrate' in navigator) {
-      navigator.vibrate([100, 50, 100]);
+      navigator.vibrate([50, 30, 50]);
     }
   },
 
   /**
-   * Navigation feedback (30ms)
+   * Navigation feedback (15ms)
    * Use for: swipes, directional navigation
    */
   navigation: () => {
     if ('vibrate' in navigator) {
-      navigator.vibrate(30);
+      navigator.vibrate(15);
     }
   },
 
