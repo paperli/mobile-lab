@@ -46,7 +46,7 @@ export function ControllerSelector({ mode, onModeChange }: ControllerSelectorPro
               }
             `}
           >
-            Trackpad
+            Joystick
           </button>
           <button
             onClick={() => handleModeChange('gamepad')}
