@@ -71,8 +71,8 @@ export function setupSocketHandlers(io: Server, roomManager: RoomManager) {
         return;
       }
 
-      if (room.mobileSocketId !== socket.id) {
-        console.log(`[Socket] Navigation input from ${socket.id} but not the mobile in this room`);
+      if (!room.mobileSocketIds.includes(socket.id)) {
+        console.log(`[Socket] Navigation input from ${socket.id} but not a mobile in this room`);
         return;
       }
 

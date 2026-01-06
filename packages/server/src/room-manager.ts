@@ -3,8 +3,9 @@ import { RoomInfo, DeviceType } from '@mobile-lab/shared';
 interface Room {
   code: string;
   tvSocketId: string | null;
-  mobileSocketId: string | null;
+  mobileSocketIds: string[];
   createdAt: number;
+  maxMobiles: number;
 }
 
 export class RoomManager {
@@ -28,8 +29,9 @@ export class RoomManager {
     const room: Room = {
       code: roomCode,
       tvSocketId,
-      mobileSocketId: null,
+      mobileSocketIds: [],
       createdAt: Date.now(),
+      maxMobiles: 4,
     };
 
     this.rooms.set(roomCode, room);
@@ -49,13 +51,13 @@ export class RoomManager {
     }
 
     if (deviceType === 'mobile') {
-      if (room.mobileSocketId) {
-        console.log(`[RoomManager] Room ${roomCode} already has a mobile device`);
+      if (room.mobileSocketIds.length >= room.maxMobiles) {
+        console.log(`[RoomManager] Room ${roomCode} is full (${room.maxMobiles} mobiles)`);
         return false;
       }
-      room.mobileSocketId = mobileSocketId;
+      room.mobileSocketIds.push(mobileSocketId);
       this.socketToRoom.set(mobileSocketId, roomCode);
-      console.log(`[RoomManager] Mobile ${mobileSocketId} joined room ${roomCode}`);
+      console.log(`[RoomManager] Mobile ${mobileSocketId} joined room ${roomCode} (${room.mobileSocketIds.length}/${room.maxMobiles})`);
     } else {
       console.log(`[RoomManager] Only mobile devices can join existing rooms`);
       return false;
@@ -94,12 +96,13 @@ export class RoomManager {
       console.log(`[RoomManager] TV disconnected from room ${roomCode}, removing room`);
       // If TV disconnects, remove the entire room
       this.rooms.delete(roomCode);
-      if (room.mobileSocketId) {
-        this.socketToRoom.delete(room.mobileSocketId);
-      }
-    } else if (room.mobileSocketId === socketId) {
+      room.mobileSocketIds.forEach(mobileId => {
+        this.socketToRoom.delete(mobileId);
+      });
+    } else if (room.mobileSocketIds.includes(socketId)) {
       console.log(`[RoomManager] Mobile disconnected from room ${roomCode}`);
-      room.mobileSocketId = null;
+      room.mobileSocketIds = room.mobileSocketIds.filter(id => id !== socketId);
+      console.log(`[RoomManager] ${room.mobileSocketIds.length} mobiles remaining in room ${roomCode}`);
     }
 
     this.socketToRoom.delete(socketId);
@@ -110,7 +113,7 @@ export class RoomManager {
     return Array.from(this.rooms.values()).map(room => ({
       roomCode: room.code,
       tvConnected: room.tvSocketId !== null,
-      mobileConnected: room.mobileSocketId !== null,
+      mobileConnected: room.mobileSocketIds.length > 0,
       createdAt: room.createdAt,
     }));
   }
@@ -130,7 +133,9 @@ export class RoomManager {
       const room = this.rooms.get(code);
       if (room) {
         if (room.tvSocketId) this.socketToRoom.delete(room.tvSocketId);
-        if (room.mobileSocketId) this.socketToRoom.delete(room.mobileSocketId);
+        room.mobileSocketIds.forEach(mobileId => {
+          this.socketToRoom.delete(mobileId);
+        });
         this.rooms.delete(code);
         console.log(`[RoomManager] Expired room removed: ${code}`);
       }
