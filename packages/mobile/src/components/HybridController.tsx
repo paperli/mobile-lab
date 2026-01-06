@@ -122,10 +122,6 @@ export function HybridController({ onNavigate, onAction }: HybridControllerProps
             ref={trackpadRef}
             className="absolute inset-16 z-0"
           >
-            <div className="absolute inset-0 flex items-center justify-center">
-              <div className="text-gray-600 text-6xl select-none pointer-events-none">⊕</div>
-            </div>
-
             {/* Swipe Feedback */}
             <div
               className={`

@@ -72,10 +72,6 @@ export function TrackpadController({ onNavigate, onAction }: TrackpadControllerP
           backgroundSize: '24px 24px'
         }}
       >
-        <div className="absolute inset-0 flex items-center justify-center">
-          <div className="text-gray-600 text-6xl select-none pointer-events-none">⊕</div>
-        </div>
-
         {/* Swipe Feedback */}
         <div
           className={`
