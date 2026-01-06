@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useState } from 'react';
 import { NavigationDirection, NavigationAction } from '@mobile-lab/shared';
 import { useSwipeGestures } from '../hooks/useSwipeGestures';
 import { HapticFeedback } from '../utils/haptics';
@@ -18,7 +18,6 @@ export function JoystickController({ onNavigate, onAction }: JoystickControllerP
   const [showFeedback, setShowFeedback] = useState(false);
   const [joystickPosition, setJoystickPosition] = useState<JoystickPosition>({ x: 0, y: 0 });
   const [isTouching, setIsTouching] = useState(false);
-  const joystickAreaRef = useRef<HTMLDivElement>(null);
 
   const JOYSTICK_AREA_RADIUS = 150; // Radius of the big circle
   const JOYSTICK_STICK_RADIUS = 40; // Radius of the small circle
@@ -35,11 +34,9 @@ export function JoystickController({ onNavigate, onAction }: JoystickControllerP
     };
   };
 
-  const handleTouchMove = (e: React.TouchEvent) => {
-    if (!joystickAreaRef.current) return;
-
+  const handleTouchMove = (e: React.TouchEvent, element: HTMLDivElement) => {
     const touch = e.touches[0];
-    const rect = joystickAreaRef.current.getBoundingClientRect();
+    const rect = element.getBoundingClientRect();
     const centerX = rect.left + rect.width / 2;
     const centerY = rect.top + rect.height / 2;
 
@@ -80,50 +77,14 @@ export function JoystickController({ onNavigate, onAction }: JoystickControllerP
     minVelocity: 0.2,
   });
 
-  const getArrowPosition = () => {
-    if (!lastSwipe || !showFeedback) return 'opacity-0';
-
-    const positions = {
-      up: 'top-8 left-1/2 -translate-x-1/2',
-      down: 'bottom-8 left-1/2 -translate-x-1/2',
-      left: 'left-8 top-1/2 -translate-y-1/2',
-      right: 'right-8 top-1/2 -translate-y-1/2',
-    };
-
-    return positions[lastSwipe];
-  };
-
-  const getArrowIcon = () => {
-    if (!lastSwipe) return '';
-
-    const icons = {
-      up: '▲',
-      down: '▼',
-      left: '◀',
-      right: '▶',
-    };
-
-    return icons[lastSwipe];
-  };
-
   return (
     <div className="flex flex-col items-center justify-center h-full bg-gray-900 p-8">
       {/* Joystick Area */}
       <div className="relative flex-1 flex items-center justify-center mb-8 w-full">
         <div
-          ref={(node) => {
-            if (node) {
-              joystickAreaRef.current = node;
-              // Also apply to the swipe gesture ref
-              if (typeof trackpadRef === 'function') {
-                trackpadRef(node);
-              } else if (trackpadRef) {
-                trackpadRef.current = node;
-              }
-            }
-          }}
+          ref={trackpadRef}
           onTouchStart={() => setIsTouching(true)}
-          onTouchMove={handleTouchMove}
+          onTouchMove={(e) => trackpadRef.current && handleTouchMove(e, trackpadRef.current)}
           onTouchEnd={handleTouchEnd}
           className="relative bg-gray-800 rounded-full border-4 border-gray-600"
           style={{
