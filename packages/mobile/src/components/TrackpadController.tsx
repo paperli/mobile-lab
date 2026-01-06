@@ -149,17 +149,6 @@ export function TrackpadController({ onNavigate, onAction }: TrackpadControllerP
             <div className="absolute top-1/4 left-1/4 w-1/3 h-1/3 bg-blue-300 rounded-full blur-sm"></div>
           </div>
 
-          {/* Direction arrows feedback */}
-          <div
-            className={`
-              absolute text-6xl text-blue-400 transition-all duration-300 pointer-events-none
-              ${showFeedback ? 'scale-150 opacity-100' : 'scale-100 opacity-0'}
-              ${getArrowPosition()}
-            `}
-          >
-            {getArrowIcon()}
-          </div>
-
           {/* Tap Feedback (center pulse) */}
           {showFeedback && !lastSwipe && (
             <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
