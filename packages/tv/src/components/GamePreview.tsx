@@ -14,12 +14,12 @@ export function GamePreview({ game }: GamePreviewProps) {
     >
       <div className="absolute inset-0 backdrop-blur-sm">
         <div className="flex items-center justify-center h-full">
-          <div className="text-center px-16 py-12">
-            <div className="text-9xl mb-8">🎮</div>
-            <h1 className="text-8xl font-bold text-white mb-6 drop-shadow-2xl">
+          <div className="text-center px-[4vw] py-[3vh]">
+            <div className="text-[8vw] mb-[2vh]">🎮</div>
+            <h1 className="text-[4.5vw] font-bold text-white mb-[2vh] drop-shadow-2xl">
               {game.title}
             </h1>
-            <p className="text-4xl text-white/80 drop-shadow-lg">{game.description}</p>
+            <p className="text-[2vw] text-white/80 drop-shadow-lg">{game.description}</p>
           </div>
         </div>
       </div>

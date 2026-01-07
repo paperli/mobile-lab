@@ -2,12 +2,12 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Fixed TV viewport - 1920x1080, no scrolling */
+/* Responsive TV viewport - targets 1920x1080 but adapts to screen size */
 html,
 body,
 #root {
-  width: 1920px;
-  height: 1080px;
+  width: 100vw;
+  height: 100vh;
   margin: 0;
   padding: 0;
   overflow: hidden;
