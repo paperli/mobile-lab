@@ -12,6 +12,8 @@ interface SquareControllerProps {
 export function SquareController({ onNavigate, onAction }: SquareControllerProps) {
   const [lastSwipe, setLastSwipe] = useState<NavigationDirection | null>(null);
   const [showFeedback, setShowFeedback] = useState(false);
+  const [edgePress, setEdgePress] = useState<NavigationDirection | null>(null);
+  const [ripplePosition, setRipplePosition] = useState<{ x: number; y: number } | null>(null);
 
   const handleSwipe = (direction: NavigationDirection) => {
     setLastSwipe(direction);
@@ -28,9 +30,27 @@ export function SquareController({ onNavigate, onAction }: SquareControllerProps
     setTimeout(() => setShowFeedback(false), 300);
   };
 
-  const handleEdgeClick = (direction: NavigationDirection) => {
+  const handleEdgeClick = (direction: NavigationDirection, e: React.TouchEvent) => {
     HapticFeedback.light();
+
+    // Calculate ripple position relative to the container
+    const touch = e.touches[0];
+    const container = e.currentTarget.closest('.aspect-square');
+    if (container) {
+      const rect = container.getBoundingClientRect();
+      const x = touch.clientX - rect.left;
+      const y = touch.clientY - rect.top;
+      setRipplePosition({ x, y });
+    }
+
+    setEdgePress(direction);
     onNavigate(direction);
+
+    // Clear ripple after animation
+    setTimeout(() => {
+      setEdgePress(null);
+      setRipplePosition(null);
+    }, 300);
   };
 
   const trackpadRef = useSwipeGestures({
@@ -86,7 +106,7 @@ export function SquareController({ onNavigate, onAction }: SquareControllerProps
             onTouchStart={(e) => {
               e.preventDefault();
               e.stopPropagation();
-              handleEdgeClick('up');
+              handleEdgeClick('up', e);
             }}
             className="absolute top-0 left-0 right-0 h-24 z-10 bg-transparent"
           />
@@ -96,7 +116,7 @@ export function SquareController({ onNavigate, onAction }: SquareControllerProps
             onTouchStart={(e) => {
               e.preventDefault();
               e.stopPropagation();
-              handleEdgeClick('down');
+              handleEdgeClick('down', e);
             }}
             className="absolute bottom-0 left-0 right-0 h-24 z-10 bg-transparent"
           />
@@ -106,7 +126,7 @@ export function SquareController({ onNavigate, onAction }: SquareControllerProps
             onTouchStart={(e) => {
               e.preventDefault();
               e.stopPropagation();
-              handleEdgeClick('left');
+              handleEdgeClick('left', e);
             }}
             className="absolute top-24 bottom-24 left-0 w-24 z-10 bg-transparent"
           />
@@ -116,7 +136,7 @@ export function SquareController({ onNavigate, onAction }: SquareControllerProps
             onTouchStart={(e) => {
               e.preventDefault();
               e.stopPropagation();
-              handleEdgeClick('right');
+              handleEdgeClick('right', e);
             }}
             className="absolute top-24 bottom-24 right-0 w-24 z-10 bg-transparent"
           />
@@ -145,6 +165,19 @@ export function SquareController({ onNavigate, onAction }: SquareControllerProps
             )}
           </div>
         </div>
+
+        {/* Ripple Overlay - Outside clipping context */}
+        {edgePress && ripplePosition && (
+          <div
+            className="absolute pointer-events-none -translate-x-1/2 -translate-y-1/2"
+            style={{
+              left: `${ripplePosition.x}px`,
+              top: `${ripplePosition.y}px`,
+            }}
+          >
+            <div className="w-32 h-32 rounded-full bg-blue-500/30 animate-ping"></div>
+          </div>
+        )}
       </div>
 
       {/* Back Button */}
