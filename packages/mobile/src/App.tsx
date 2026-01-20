@@ -11,7 +11,7 @@ import { ControllerSelector } from './components/ControllerSelector';
 
 function App() {
   const { connectionStatus, isPaired, roomCode, joinRoom, sendNavigationInput } = useSocket();
-  const [controllerMode, setControllerMode] = useState<ControllerMode>('dpad');
+  const [controllerMode, setControllerMode] = useState<ControllerMode>('square-hybrid');
   const [isConnecting, setIsConnecting] = useState(false);
   const [error, setError] = useState<string>();
 
@@ -118,8 +118,8 @@ function App() {
   // Show controller based on mode
   return (
     <div className="relative w-full h-full">
-      <ControllerSelector mode={controllerMode} onModeChange={handleModeChange} roomCode={roomCode} />
-      <div className="h-full pt-16">
+      {/* <ControllerSelector mode={controllerMode} onModeChange={handleModeChange} roomCode={roomCode} /> */}
+      <div className="h-full">
         {controllerMode === 'dpad' && (
           <DPadController onNavigate={handleNavigate} onAction={handleAction} />
         )}
