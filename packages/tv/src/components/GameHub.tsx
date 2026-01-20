@@ -1,17 +1,19 @@
 import { PLACEHOLDER_GAMES, GameData, NavigationDirection, NavigationAction } from '@mobile-lab/shared';
 import { GameTile } from './GameTile';
 import { GamePreview } from './GamePreview';
+import { FocusFrame } from './FocusFrame';
 import { useKeyboardNav } from '../hooks/useKeyboardNav';
 
 interface GameHubProps {
   roomCode: string;
   focusedIndex: number;
+  bounceDirection: NavigationDirection | null;
   onNavigate: (direction: NavigationDirection) => void;
   onAction: (action: NavigationAction) => void;
   onFocusChange: (index: number) => void;
 }
 
-export function GameHub({ roomCode, focusedIndex, onNavigate, onAction, onFocusChange }: GameHubProps) {
+export function GameHub({ roomCode, focusedIndex, bounceDirection, onNavigate, onAction, onFocusChange }: GameHubProps) {
   const games = PLACEHOLDER_GAMES as unknown as GameData[];
 
   // Setup keyboard navigation
@@ -44,6 +46,12 @@ export function GameHub({ roomCode, focusedIndex, onNavigate, onAction, onFocusC
             />
           ))}
         </div>
+        {/* Focus Frame */}
+        <FocusFrame
+          focusedIndex={focusedIndex}
+          totalItems={games.length}
+          bounceDirection={bounceDirection}
+        />
       </div>
 
       {/* Instructions */}

@@ -7,45 +7,75 @@ import {
 } from '@mobile-lab/shared';
 import { GameHub } from './components/GameHub';
 import { useSocket } from './hooks/useSocket';
+import { soundManager } from './utils/sounds';
 
 // Configuration: Enable/disable looping navigation
 const ENABLE_LOOP_NAVIGATION = false;
 
 function App() {
   const [focusedIndex, setFocusedIndex] = useState(0);
+  const [bounceDirection, setBounceDirection] = useState<NavigationDirection | null>(null);
   const games = PLACEHOLDER_GAMES;
 
   const handleNavigate = useCallback((direction: NavigationDirection) => {
     setFocusedIndex((current) => {
+      let newIndex = current;
+      let shouldBounce = false;
+
       switch (direction) {
         case 'left':
           if (ENABLE_LOOP_NAVIGATION) {
             // Loop to last item if at first item
-            return current === 0 ? games.length - 1 : current - 1;
+            newIndex = current === 0 ? games.length - 1 : current - 1;
           } else {
             // Stop at first item
-            return Math.max(0, current - 1);
+            if (current === 0) {
+              shouldBounce = true;
+            } else {
+              newIndex = current - 1;
+            }
           }
+          break;
         case 'right':
           if (ENABLE_LOOP_NAVIGATION) {
             // Loop to first item if at last item
-            return current === games.length - 1 ? 0 : current + 1;
+            newIndex = current === games.length - 1 ? 0 : current + 1;
           } else {
             // Stop at last item
-            return Math.min(games.length - 1, current + 1);
+            if (current === games.length - 1) {
+              shouldBounce = true;
+            } else {
+              newIndex = current + 1;
+            }
           }
+          break;
         case 'up':
         case 'down':
-          return current;
+          // No vertical navigation in single row, trigger bounce
+          shouldBounce = true;
+          break;
         default:
-          return current;
+          break;
       }
+
+      // Trigger bounce animation and sound if at boundary
+      if (shouldBounce) {
+        setBounceDirection(direction);
+        setTimeout(() => setBounceDirection(null), 200);
+        soundManager.playBounceSound();
+      } else if (newIndex !== current) {
+        // Play navigation sound only if focus actually moved
+        soundManager.playNavigationSound();
+      }
+
+      return newIndex;
     });
   }, [games.length]);
 
   const handleAction = useCallback((action: NavigationAction) => {
     if (action === 'ok') {
       console.log(`[TV] Selected game: ${games[focusedIndex].title}`);
+      soundManager.playSelectionSound();
       // In the future, this could launch the game
     } else if (action === 'back') {
       console.log('[TV] Back action');
@@ -83,6 +113,7 @@ function App() {
     <GameHub
       roomCode={roomCode}
       focusedIndex={focusedIndex}
+      bounceDirection={bounceDirection}
       onNavigate={handleNavigate}
       onAction={handleAction}
       onFocusChange={setFocusedIndex}
