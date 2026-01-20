@@ -3,6 +3,7 @@
 class SoundManager {
   private audioCache: Map<string, HTMLAudioElement> = new Map();
   private volume: number = 0.3; // Master volume (0.0 to 1.0)
+  private audioUnlocked: boolean = false;
 
   // Audio file paths (relative to public folder)
   private readonly soundPaths = {
@@ -35,10 +36,35 @@ class SoundManager {
   }
 
   /**
+   * Unlock audio playback (required for autoplay policy)
+   * Should be called on first user interaction
+   */
+  unlockAudio() {
+    if (this.audioUnlocked) return;
+
+    try {
+      // Create and play a silent audio to unlock audio context
+      const silentAudio = new Audio();
+      silentAudio.volume = 0;
+      silentAudio.play().then(() => {
+        this.audioUnlocked = true;
+        console.log('[SoundManager] Audio unlocked');
+      }).catch(() => {
+        // Ignore errors, will try again on next interaction
+      });
+    } catch (error) {
+      // Ignore errors
+    }
+  }
+
+  /**
    * Play a sound by key
    * Creates a new audio instance each time to allow overlapping sounds
    */
   private playSound(key: keyof typeof this.soundPaths) {
+    // Try to unlock audio on first play
+    this.unlockAudio();
+
     try {
       const path = this.soundPaths[key];
       const audio = new Audio(path);

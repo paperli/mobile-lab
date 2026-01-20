@@ -104,7 +104,14 @@ export function useVoiceInput(options: UseVoiceInputOptions = {}): UseVoiceInput
         const average = sum / dataArray.length;
 
         // Normalize to 0-1 range (0-255 -> 0-1)
-        const normalizedVolume = average / 255;
+        let normalizedVolume = average / 255;
+
+        // Amplify the volume (typical speech is quiet, multiply by 2.5x)
+        // This makes normal/loud speech reach closer to 100%
+        normalizedVolume = normalizedVolume * 2.5;
+
+        // Clamp to 0-1 range
+        normalizedVolume = Math.max(0, Math.min(1, normalizedVolume));
 
         setVolume(normalizedVolume);
 

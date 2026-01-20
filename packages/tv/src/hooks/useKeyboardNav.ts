@@ -1,5 +1,6 @@
-import { useEffect, useCallback } from 'react';
+import { useEffect, useCallback, useRef } from 'react';
 import { NavigationDirection, NavigationAction } from '@mobile-lab/shared';
+import { soundManager } from '../utils/sounds';
 
 interface UseKeyboardNavProps {
   onNavigate: (direction: NavigationDirection) => void;
@@ -7,8 +8,16 @@ interface UseKeyboardNavProps {
 }
 
 export function useKeyboardNav({ onNavigate, onAction }: UseKeyboardNavProps) {
+  const audioUnlockedRef = useRef(false);
+
   const handleKeyDown = useCallback(
     (event: KeyboardEvent) => {
+      // Unlock audio on first keyboard interaction
+      if (!audioUnlockedRef.current) {
+        soundManager.unlockAudio();
+        audioUnlockedRef.current = true;
+      }
+
       switch (event.key) {
         case 'ArrowUp':
           event.preventDefault();

@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useRef } from 'react';
 import {
   NavigationInputPayload,
   NavigationDirection,
@@ -16,6 +16,7 @@ function App() {
   const [focusedIndex, setFocusedIndex] = useState(0);
   const [bounceDirection, setBounceDirection] = useState<NavigationDirection | null>(null);
   const [isPressing, setIsPressing] = useState(false);
+  const audioUnlockedRef = useRef(false);
   const games = PLACEHOLDER_GAMES;
 
   const handleNavigate = useCallback((direction: NavigationDirection) => {
@@ -92,6 +93,12 @@ function App() {
   // Handle navigation input from mobile
   const handleNavigationInput = useCallback(
     (payload: NavigationInputPayload) => {
+      // Unlock audio on first mobile input
+      if (!audioUnlockedRef.current) {
+        soundManager.unlockAudio();
+        audioUnlockedRef.current = true;
+      }
+
       if (payload.type === 'navigate' && payload.direction) {
         handleNavigate(payload.direction);
       } else if (payload.type === 'action' && payload.action) {

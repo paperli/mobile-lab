@@ -7,6 +7,7 @@ interface VoiceGlowProps {
 
 export function VoiceGlow({ volume, isActive }: VoiceGlowProps) {
   const [hueOffset, setHueOffset] = useState(0);
+  const [waveOffset, setWaveOffset] = useState(0);
 
   // Animate hue rotation for color shifting effect
   useEffect(() => {
@@ -19,132 +20,99 @@ export function VoiceGlow({ volume, isActive }: VoiceGlowProps) {
     return () => clearInterval(interval);
   }, [isActive]);
 
+  // Animate wave movement
+  useEffect(() => {
+    if (!isActive) return;
+
+    const interval = setInterval(() => {
+      setWaveOffset((prev) => (prev + 2) % 360);
+    }, 30); // Update every 30ms for smooth wave animation
+
+    return () => clearInterval(interval);
+  }, [isActive]);
+
   if (!isActive) return null;
 
+  // Calculate wave amplitude based on volume
+  // Min amplitude: 10 (very subtle wave at silence)
+  // Max amplitude: 70 (dramatic wave at loud volume)
+  const baseAmplitude = 10;
+  const maxAmplitude = 70;
+  const amplitude = baseAmplitude + (volume * (maxAmplitude - baseAmplitude));
+
   // Calculate glow intensity based on volume
-  // Min opacity: 0.3, Max opacity: 0.9
-  const opacity = 0.3 + (volume * 0.6);
+  // Min opacity: 0.75, Max opacity: 0.95 (brighter at silence for better visibility)
+  const opacity = 0.75 + (volume * 0.2);
 
   // Calculate blur amount based on volume
-  // Min blur: 20px, Max blur: 60px
-  const blur = 20 + (volume * 40);
+  // Min blur: 30px, Max blur: 70px (less blur at silence for more definition)
+  const blur = 30 + (volume * 40);
 
-  // Calculate scale based on volume for pulsing effect
-  // Min scale: 1.0, Max scale: 1.15
-  const scale = 1.0 + (volume * 0.15);
+  // Generate wave path (sine wave)
+  const generateWavePath = () => {
+    const width = 100; // viewport width percentage
+    const height = 150; // Height in pixels to cover safe area
+    const frequency = 2; // Number of wave cycles
+    const points: string[] = [];
 
-  // Generate gradient with shifting colors (like Siri)
-  const gradient = `
-    linear-gradient(
-      90deg,
-      hsl(${(hueOffset + 0) % 360}, 80%, 60%),
-      hsl(${(hueOffset + 60) % 360}, 80%, 60%),
-      hsl(${(hueOffset + 120) % 360}, 80%, 60%),
-      hsl(${(hueOffset + 180) % 360}, 80%, 60%),
-      hsl(${(hueOffset + 240) % 360}, 80%, 60%),
-      hsl(${(hueOffset + 300) % 360}, 80%, 60%),
-      hsl(${(hueOffset + 0) % 360}, 80%, 60%)
-    )
-  `;
+    // Start from bottom left corner
+    points.push(`M 0,${height}`);
+
+    // Draw line to bottom right corner
+    points.push(`L ${width},${height}`);
+
+    // Generate wave curve from right to left (top edge of wave)
+    for (let x = width; x >= 0; x -= 0.5) {
+      const radians = ((x / width) * frequency * 360 + waveOffset) * (Math.PI / 180);
+      // Wave extends upward from bottom, using amplitude for peaks
+      const y = height - amplitude - Math.sin(radians) * amplitude * 0.5;
+      points.push(`L ${x},${y}`);
+    }
+
+    // Close the path
+    points.push('Z');
+
+    return points.join(' ');
+  };
 
   return (
-    <div className="fixed inset-0 pointer-events-none z-50 overflow-hidden">
-      {/* Top edge glow */}
-      <div
-        className="absolute top-0 left-0 right-0 h-2 transition-all duration-100"
+    <div
+      className="fixed pointer-events-none z-50"
+      style={{
+        bottom: '40px', // Move up 40px from bottom
+        left: 0,
+        right: 0,
+        height: '150px',
+      }}
+    >
+      {/* Wave visualization at bottom */}
+      <svg
+        className="absolute bottom-0 left-0 w-full h-full"
+        viewBox="0 0 100 150"
+        preserveAspectRatio="none"
         style={{
-          background: gradient,
-          opacity,
           filter: `blur(${blur}px)`,
-          transform: `scaleY(${scale})`,
-          transformOrigin: 'top',
         }}
-      />
+      >
+        <defs>
+          {/* Gradient definition with shifting colors */}
+          <linearGradient id="waveGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stopColor={`hsl(${(hueOffset + 0) % 360}, 80%, 60%)`} stopOpacity={opacity} />
+            <stop offset="16.67%" stopColor={`hsl(${(hueOffset + 60) % 360}, 80%, 60%)`} stopOpacity={opacity} />
+            <stop offset="33.33%" stopColor={`hsl(${(hueOffset + 120) % 360}, 80%, 60%)`} stopOpacity={opacity} />
+            <stop offset="50%" stopColor={`hsl(${(hueOffset + 180) % 360}, 80%, 60%)`} stopOpacity={opacity} />
+            <stop offset="66.67%" stopColor={`hsl(${(hueOffset + 240) % 360}, 80%, 60%)`} stopOpacity={opacity} />
+            <stop offset="83.33%" stopColor={`hsl(${(hueOffset + 300) % 360}, 80%, 60%)`} stopOpacity={opacity} />
+            <stop offset="100%" stopColor={`hsl(${(hueOffset + 360) % 360}, 80%, 60%)`} stopOpacity={opacity} />
+          </linearGradient>
+        </defs>
 
-      {/* Bottom edge glow */}
-      <div
-        className="absolute bottom-0 left-0 right-0 h-2 transition-all duration-100"
-        style={{
-          background: gradient,
-          opacity,
-          filter: `blur(${blur}px)`,
-          transform: `scaleY(${scale})`,
-          transformOrigin: 'bottom',
-        }}
-      />
-
-      {/* Left edge glow */}
-      <div
-        className="absolute top-0 bottom-0 left-0 w-2 transition-all duration-100"
-        style={{
-          background: gradient,
-          opacity,
-          filter: `blur(${blur}px)`,
-          transform: `scaleX(${scale})`,
-          transformOrigin: 'left',
-        }}
-      />
-
-      {/* Right edge glow */}
-      <div
-        className="absolute top-0 bottom-0 right-0 w-2 transition-all duration-100"
-        style={{
-          background: gradient,
-          opacity,
-          filter: `blur(${blur}px)`,
-          transform: `scaleX(${scale})`,
-          transformOrigin: 'right',
-        }}
-      />
-
-      {/* Corner accents for more uniform glow */}
-      {/* Top-left corner */}
-      <div
-        className="absolute top-0 left-0 w-20 h-20 transition-all duration-100"
-        style={{
-          background: `radial-gradient(circle at top left,
-            hsl(${(hueOffset + 0) % 360}, 80%, 60%) 0%,
-            transparent 70%)`,
-          opacity: opacity * 0.8,
-          filter: `blur(${blur * 0.8}px)`,
-        }}
-      />
-
-      {/* Top-right corner */}
-      <div
-        className="absolute top-0 right-0 w-20 h-20 transition-all duration-100"
-        style={{
-          background: `radial-gradient(circle at top right,
-            hsl(${(hueOffset + 90) % 360}, 80%, 60%) 0%,
-            transparent 70%)`,
-          opacity: opacity * 0.8,
-          filter: `blur(${blur * 0.8}px)`,
-        }}
-      />
-
-      {/* Bottom-left corner */}
-      <div
-        className="absolute bottom-0 left-0 w-20 h-20 transition-all duration-100"
-        style={{
-          background: `radial-gradient(circle at bottom left,
-            hsl(${(hueOffset + 180) % 360}, 80%, 60%) 0%,
-            transparent 70%)`,
-          opacity: opacity * 0.8,
-          filter: `blur(${blur * 0.8}px)`,
-        }}
-      />
-
-      {/* Bottom-right corner */}
-      <div
-        className="absolute bottom-0 right-0 w-20 h-20 transition-all duration-100"
-        style={{
-          background: `radial-gradient(circle at bottom right,
-            hsl(${(hueOffset + 270) % 360}, 80%, 60%) 0%,
-            transparent 70%)`,
-          opacity: opacity * 0.8,
-          filter: `blur(${blur * 0.8}px)`,
-        }}
-      />
+        {/* Wave path */}
+        <path
+          d={generateWavePath()}
+          fill="url(#waveGradient)"
+        />
+      </svg>
     </div>
   );
 }
