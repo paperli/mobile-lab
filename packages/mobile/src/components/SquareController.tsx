@@ -90,7 +90,7 @@ export function SquareController({ onNavigate, onAction }: SquareControllerProps
   return (
     <div className="flex flex-col items-center justify-center h-full bg-gray-900 py-8 px-2">
       {/* Square Trackpad Area with Invisible Edge Zones */}
-      <div className="relative w-full max-w-md aspect-square mb-8">
+      <div className="relative w-full max-w-md aspect-square mb-16">
         <div
           className="relative w-full h-full overflow-hidden"
           style={{
