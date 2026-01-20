@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Undo2 } from 'lucide-react';
 import { NavigationDirection, NavigationAction } from '@mobile-lab/shared';
 import { useSwipeGestures } from '../hooks/useSwipeGestures';
 import { HapticFeedback } from '../utils/haptics';
@@ -188,14 +189,19 @@ export function SquareController({ onNavigate, onAction }: SquareControllerProps
           onAction('back');
         }}
         className="
-          w-64 h-20 bg-red-600 active:bg-red-500
-          border-4 border-red-500 active:border-red-400
-          rounded-2xl text-white text-2xl font-bold
+          w-64 h-20
+          text-white text-2xl font-bold
           transition-all duration-100 active:scale-95
-          shadow-lg active:shadow-xl
           select-none touch-none
+          flex items-center justify-center gap-3
         "
+        style={{
+          borderRadius: '24px',
+          border: '2px solid rgba(255, 255, 255, 0.12)',
+          background: 'rgba(255, 255, 255, 0.06)',
+        }}
       >
+        <Undo2 size={28} strokeWidth={2.5} />
         BACK
       </button>
     </div>
