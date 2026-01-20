@@ -10,7 +10,7 @@ export const HapticFeedback = {
    */
   light: () => {
     if ('vibrate' in navigator) {
-      navigator.vibrate(10);
+      navigator.vibrate(5);
     }
   },
 
@@ -20,7 +20,7 @@ export const HapticFeedback = {
    */
   medium: () => {
     if ('vibrate' in navigator) {
-      navigator.vibrate(25);
+      navigator.vibrate(10);
     }
   },
 
@@ -30,7 +30,7 @@ export const HapticFeedback = {
    */
   success: () => {
     if ('vibrate' in navigator) {
-      navigator.vibrate([30, 30, 30]);
+      navigator.vibrate([15, 15, 15]);
     }
   },
 
@@ -40,7 +40,7 @@ export const HapticFeedback = {
    */
   error: () => {
     if ('vibrate' in navigator) {
-      navigator.vibrate([50, 30, 50]);
+      navigator.vibrate([25, 15, 25]);
     }
   },
 

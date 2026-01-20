@@ -20,6 +20,10 @@ export function FocusFrame({ focusedIndex, totalItems, bounceDirection, isPressi
   const frameMargin = 1; // vw margin on each side
   const frameWidth = tileWidth + (frameMargin * 2); // 22vw total
 
+  // Calculate tile and frame heights
+  const tileHeight = tileWidth * (9 / 16); // 20vw * 9/16 = 11.25vw
+  const frameHeight = tileHeight + (frameMargin * 2); // 13.25vw total
+
   // Total width of all tiles plus gaps
   const totalContentWidth = (tileWidth + gap) * totalItems - gap; // 20*4 + 2*3 = 86vw
 
@@ -72,7 +76,6 @@ export function FocusFrame({ focusedIndex, totalItems, bounceDirection, isPressi
       <div
         className={`
           absolute
-          aspect-[16/9]
           rounded-2xl
           ring-8 ring-blue-500
           shadow-2xl shadow-blue-500/50
@@ -80,7 +83,8 @@ export function FocusFrame({ focusedIndex, totalItems, bounceDirection, isPressi
         `}
         style={{
           width: `${frameWidth}vw`,
-          bottom: `calc(4vh - ${frameMargin}vw * 9/16)`, // Adjust for aspect ratio
+          height: `${frameHeight}vw`,
+          bottom: `calc(4vh - ${frameMargin}vw)`, // Equal margin on all sides
           left: '0',
           transform: isAnimating
             ? `translateX(${translateX + bounceOffset.x}vw) translateY(${bounceOffset.y}vw)${isPressing ? ' scale(0.95)' : ''}`

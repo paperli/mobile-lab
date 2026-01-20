@@ -62,6 +62,19 @@ function App() {
     }
   }, [connectionStatus.error]);
 
+  // Auto-join room if code is in URL query parameter
+  useEffect(() => {
+    if (connectionStatus.connected && !isPaired && !isConnecting) {
+      const urlParams = new URLSearchParams(window.location.search);
+      const codeFromUrl = urlParams.get('code');
+
+      if (codeFromUrl) {
+        console.log('[Mobile] Auto-joining room from URL:', codeFromUrl);
+        handlePair(codeFromUrl);
+      }
+    }
+  }, [connectionStatus.connected, isPaired, isConnecting, handlePair]);
+
   const handleNavigate = useCallback(
     (direction: string) => {
       sendNavigationInput({
