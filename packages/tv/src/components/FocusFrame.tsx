@@ -4,9 +4,10 @@ interface FocusFrameProps {
   focusedIndex: number;
   totalItems: number;
   bounceDirection?: 'left' | 'right' | 'up' | 'down' | null;
+  isPressing: boolean;
 }
 
-export function FocusFrame({ focusedIndex, totalItems, bounceDirection }: FocusFrameProps) {
+export function FocusFrame({ focusedIndex, totalItems, bounceDirection, isPressing }: FocusFrameProps) {
   const [isAnimating, setIsAnimating] = useState(false);
 
   // Calculate position to match the flexbox-centered tiles
@@ -75,15 +76,15 @@ export function FocusFrame({ focusedIndex, totalItems, bounceDirection }: FocusF
           rounded-2xl
           ring-8 ring-blue-500
           shadow-2xl shadow-blue-500/50
-          ${isAnimating ? 'transition-transform duration-150 ease-out' : 'transition-all duration-300 ease-out'}
+          ${isAnimating || isPressing ? 'transition-transform duration-150 ease-out' : 'transition-all duration-300 ease-out'}
         `}
         style={{
           width: `${frameWidth}vw`,
           bottom: `calc(4vh - ${frameMargin}vw * 9/16)`, // Adjust for aspect ratio
           left: '0',
           transform: isAnimating
-            ? `translateX(${translateX + bounceOffset.x}vw) translateY(${bounceOffset.y}vw)`
-            : `translateX(${translateX}vw)`,
+            ? `translateX(${translateX + bounceOffset.x}vw) translateY(${bounceOffset.y}vw)${isPressing ? ' scale(0.95)' : ''}`
+            : `translateX(${translateX}vw)${isPressing ? ' scale(0.95)' : ''}`,
         }}
       />
     </div>

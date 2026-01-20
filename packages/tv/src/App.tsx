@@ -15,6 +15,7 @@ const ENABLE_LOOP_NAVIGATION = false;
 function App() {
   const [focusedIndex, setFocusedIndex] = useState(0);
   const [bounceDirection, setBounceDirection] = useState<NavigationDirection | null>(null);
+  const [isPressing, setIsPressing] = useState(false);
   const games = PLACEHOLDER_GAMES;
 
   const handleNavigate = useCallback((direction: NavigationDirection) => {
@@ -75,6 +76,11 @@ function App() {
   const handleAction = useCallback((action: NavigationAction) => {
     if (action === 'ok') {
       console.log(`[TV] Selected game: ${games[focusedIndex].title}`);
+
+      // Trigger pressing animation
+      setIsPressing(true);
+      setTimeout(() => setIsPressing(false), 150);
+
       soundManager.playSelectionSound();
       // In the future, this could launch the game
     } else if (action === 'back') {
@@ -114,6 +120,7 @@ function App() {
       roomCode={roomCode}
       focusedIndex={focusedIndex}
       bounceDirection={bounceDirection}
+      isPressing={isPressing}
       onNavigate={handleNavigate}
       onAction={handleAction}
       onFocusChange={setFocusedIndex}
