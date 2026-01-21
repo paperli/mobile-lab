@@ -202,7 +202,7 @@ export function SquareController({ onNavigate, onAction }: SquareControllerProps
             onAction('back');
           }}
           className="
-            w-30 h-30
+            w-[120px] h-[120px]
             text-white
             transition-all duration-100 active:scale-95
             select-none touch-none
