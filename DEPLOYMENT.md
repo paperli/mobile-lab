@@ -2,6 +2,18 @@
 
 This guide explains how to deploy the Mobile Lab application to Render.com for free remote testing.
 
+## Local Development vs Production
+
+**Local Development (HTTPS Setup Required)**:
+- Requires self-signed SSL certificates for accessing device features (microphone, etc.)
+- See `packages/mobile/certs/README.md` for certificate setup instructions
+- Server will fall back to HTTP if certificates are not found
+
+**Production Deployment (Render)**:
+- HTTPS is provided automatically by Render at no cost
+- No certificate setup needed
+- All services get `.onrender.com` domains with valid SSL certificates
+
 ## Prerequisites
 
 1. A GitHub account
@@ -92,8 +104,10 @@ After initial deployment, you'll have the actual URLs. Update the environment va
 - Connection will be via WSS (secure WebSocket) automatically
 
 ### HTTPS
-- All Render services get free HTTPS automatically
-- Update socket connections to use `https://` not `http://`
+- All Render services get free HTTPS automatically with valid SSL certificates
+- No certificate setup or configuration needed (unlike local development)
+- Socket connections will automatically use WSS (secure WebSocket over HTTPS)
+- Required for accessing device features like microphone in production
 
 ### Cold Start
 - First connection may be slow due to service spin-up

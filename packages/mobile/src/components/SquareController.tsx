@@ -202,20 +202,19 @@ export function SquareController({ onNavigate, onAction }: SquareControllerProps
             onAction('back');
           }}
           className="
-            w-64 h-20
-            text-white text-2xl font-bold
+            w-20 h-20
+            text-white
             transition-all duration-100 active:scale-95
             select-none touch-none
-            flex items-center justify-center gap-3
+            flex items-center justify-center
           "
           style={{
-            borderRadius: '24px',
+            borderRadius: '50%',
             border: '2px solid rgba(255, 255, 255, 0.12)',
             background: 'rgba(255, 255, 255, 0.06)',
           }}
         >
           <Undo2 size={28} strokeWidth={2.5} />
-          BACK
         </button>
       </div>
     </>

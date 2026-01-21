@@ -52,6 +52,63 @@ mobile-lab/
 npm install
 ```
 
+### Environment Variables Setup (Optional)
+
+Environment variables are pre-configured with sensible defaults. The `.env` files are already created with HTTPS URLs and your local IP address.
+
+**For most users**: No action needed - the default `.env` files work out of the box.
+
+**To customize**: Edit the `.env` files in each package:
+- `packages/server/.env` - Server configuration (PORT, ALLOWED_ORIGINS)
+- `packages/tv/.env` - TV frontend (VITE_SERVER_URL, VITE_MOBILE_URL)
+- `packages/mobile/.env` - Mobile frontend (VITE_SERVER_URL)
+
+**Note**: The application will work even without `.env` files as it has built-in defaults and auto-detection.
+
+### HTTPS Setup (Required for Voice Features)
+
+HTTPS is required for accessing device features like the microphone. To enable HTTPS for local development:
+
+#### Quick Setup (Recommended)
+
+Run the automated setup script:
+
+```bash
+# Make sure mkcert is installed first (see below)
+./setup-https.sh
+```
+
+The script will:
+- Install the mkcert root certificate
+- Auto-detect your local IP address
+- Generate SSL certificates for localhost and your network
+- Copy certificates to all packages
+
+#### Manual Setup
+
+If you prefer manual setup or need to troubleshoot:
+
+1. **Install mkcert**:
+   ```bash
+   # macOS
+   brew install mkcert
+
+   # Linux
+   apt install mkcert
+
+   # Windows
+   choco install mkcert
+   ```
+
+2. **Run the setup script**:
+   ```bash
+   ./setup-https.sh
+   ```
+
+Or follow the manual steps in `packages/mobile/certs/README.md`.
+
+**Note**: If certificates are not found, services will run in HTTP mode, but voice features requiring microphone access will not work.
+
 ### Running the Application
 
 #### Start all services at once:
@@ -61,11 +118,13 @@ npm run dev
 ```
 
 This will start:
-- **Server** at `http://localhost:3000`
-- **TV Screen** at `http://localhost:5173` (also exposed on your network IP)
-- **Mobile Controller** at `http://localhost:5174` (also exposed on your network IP)
+- **Server** at `https://localhost:3000` (HTTPS if certificates are found, HTTP otherwise)
+- **TV Screen** at `https://localhost:5173` (also exposed on your network IP)
+- **Mobile Controller** at `https://localhost:5174` (also exposed on your network IP)
 
 All services are **automatically exposed to your local network**, so you can access them from any device on the same WiFi.
+
+**With HTTPS enabled**, you'll see "🔒 Using HTTPS with SSL certificates" in the server logs.
 
 #### Or run services individually:
 
@@ -84,17 +143,20 @@ npm run dev:mobile
 
 ### 1. Open TV Screen
 **On Desktop:**
-- Navigate to `http://localhost:5173` in your browser
+- Navigate to `https://localhost:5173` in your browser (or `http://` if HTTPS not setup)
+- Accept the certificate warning if using HTTPS (safe for local development)
 - Set browser window to 1920x1080 resolution for best experience
 - A 6-digit pairing code will be displayed in the top-right
 
 **On Network (from any device on same WiFi):**
-- The console will show your network URL (e.g., `http://192.168.20.40:5173`)
+- The console will show your network URL (e.g., `https://192.168.20.40:5173`)
 - Use this URL to access from other devices on your network
 
 ### 2. Connect Mobile Controller
 **On the same computer (testing):**
-- Open `http://localhost:5174` in a browser
+- Open `https://localhost:5174` in a browser (or `http://` if HTTPS not setup)
+- Accept the certificate warning if using HTTPS
+- Grant microphone permission when prompted (for voice features)
 
 **On your mobile device (real testing):**
 - Make sure your phone is on the **same WiFi network**

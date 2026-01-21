@@ -31,9 +31,9 @@ export function useSocket(onNavigationInput: (payload: NavigationInputPayload) =
         return import.meta.env.VITE_SERVER_URL;
       }
       // Use current hostname and protocol for local network access
-      // If page is HTTPS, still use HTTP for socket (server runs on HTTP)
       const hostname = window.location.hostname;
-      return `http://${hostname}:${CONFIG.SERVER_PORT}`;
+      const protocol = window.location.protocol === 'https:' ? 'https' : 'http';
+      return `${protocol}://${hostname}:${CONFIG.SERVER_PORT}`;
     };
 
     const socketInstance = io(getServerUrl(), {

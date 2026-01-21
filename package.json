@@ -7,6 +7,7 @@
     "packages/*"
   ],
   "scripts": {
+    "setup:https": "./setup-https.sh",
     "dev": "concurrently -n server,tv,mobile -c blue,green,yellow \"cd packages/server && npm run dev\" \"cd packages/tv && npm run dev\" \"cd packages/mobile && npm run dev\"",
     "dev:tv": "cd packages/tv && npm run dev",
     "dev:mobile": "cd packages/mobile && npm run dev",

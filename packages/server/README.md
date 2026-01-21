@@ -26,6 +26,24 @@ A real-time WebSocket-based system for connecting mobile controllers to TV scree
 
 - Node.js 18+ installed
 - All dependencies installed (`npm install`)
+- **HTTPS certificates** (required for microphone access and voice features)
+
+### Step 0: Setup HTTPS Certificates (First Time Only)
+
+HTTPS is required for accessing device features like the microphone. Run the automated setup:
+
+```bash
+# From project root
+./setup-https.sh
+```
+
+This will automatically:
+- Install mkcert root certificate
+- Detect your local IP address
+- Generate SSL certificates
+- Copy certificates to all packages
+
+**Manual Setup**: If you need manual setup, see `packages/mobile/certs/README.md`
 
 ### Step 1: Start Development Servers
 
@@ -36,9 +54,11 @@ npm run dev
 ```
 
 This starts 3 services concurrently:
-- **Server**: http://localhost:3000 (WebSocket server)
-- **TV**: http://localhost:5176 (may vary if port is taken)
-- **Mobile**: http://localhost:5175 (may vary if port is taken)
+- **Server**: https://localhost:3000 (WebSocket server with HTTPS)
+- **TV**: https://localhost:5173 (Vite dev server with HTTPS)
+- **Mobile**: https://localhost:5174 (Vite dev server with HTTPS)
+
+**Note**: If certificates are not found, the server will fall back to HTTP mode, but voice features requiring microphone access will not work.
 
 ### Step 2: Connect TV Screen
 
@@ -53,9 +73,11 @@ This starts 3 services concurrently:
 #### Testing on Same Computer:
 
 1. Open **Mobile URL** in another browser window/tab
-   - Example: http://localhost:5175
-2. Enter the 6-digit code from TV screen
-3. Select a controller mode and test navigation
+   - Example: https://localhost:5174
+2. Accept the certificate warning (safe for local development)
+3. Enter the 6-digit code from TV screen
+4. Grant microphone permission when prompted (for voice features)
+5. Select a controller mode and test navigation
 
 #### Testing on Your Phone (Local Network):
 
@@ -69,12 +91,14 @@ This starts 3 services concurrently:
    ```
    - Example IP: `192.168.20.40`
 
-2. Open on your phone:
-   - Mobile: `http://192.168.20.40:5175`
-   - (Optional) TV on tablet: `http://192.168.20.40:5176`
+2. Open on your phone (use HTTPS):
+   - Mobile: `https://192.168.20.40:5174`
+   - (Optional) TV on tablet: `https://192.168.20.40:5173`
 
-3. Enter the 6-digit code displayed on TV
-4. Test all 4 controller modes
+3. Accept the certificate warning (you'll see "Your connection is not private" - click "Advanced" and "Proceed")
+4. Grant microphone permission when prompted
+5. Enter the 6-digit code displayed on TV
+6. Test all 4 controller modes
 
 ### Step 4: Test Multiple Controllers
 
@@ -248,16 +272,20 @@ Same as local testing (see Step 4 & 5 above):
 ### Start Local Development
 
 ```bash
+# First time only: Setup HTTPS certificates (see Step 0 above)
 npm run dev
 ```
 
 ### Test with 2 Devices (Computer + Phone)
 
-1. Start dev servers
-2. Computer: Open http://localhost:5176 (TV)
-3. Phone: Open http://192.168.20.40:5175 (use your IP)
-4. Enter room code on phone
-5. Test navigation
+1. Setup HTTPS certificates (first time only - see Step 0 above)
+2. Start dev servers: `npm run dev`
+3. Computer: Open https://localhost:5173 (TV)
+4. Phone: Open https://192.168.20.40:5174 (use your IP)
+5. Accept certificate warnings on both devices
+6. Grant microphone permission on phone
+7. Enter room code on phone
+8. Test navigation
 
 ### Test with 4 Players Remotely
 

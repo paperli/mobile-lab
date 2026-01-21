@@ -16,7 +16,11 @@ build/
 .env.production.local
 
 # SSL Certificates (local development)
-**/certs/
+**/certs/*.pem
+**/certs/*.key
+**/certs/*.crt
+# Keep the README files in certs directories
+!**/certs/README.md
 
 # Logs
 npm-debug.log*

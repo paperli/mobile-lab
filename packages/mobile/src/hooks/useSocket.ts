@@ -23,9 +23,10 @@ export function useSocket() {
       if (import.meta.env.VITE_SERVER_URL) {
         return import.meta.env.VITE_SERVER_URL;
       }
-      // Use current hostname for local network access
+      // Use current hostname and protocol for local network access
       const hostname = window.location.hostname;
-      return `http://${hostname}:${CONFIG.SERVER_PORT}`;
+      const protocol = window.location.protocol === 'https:' ? 'https' : 'http';
+      return `${protocol}://${hostname}:${CONFIG.SERVER_PORT}`;
     };
 
     const socketInstance = io(getServerUrl(), {
