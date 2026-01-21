@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 import { Undo2 } from 'lucide-react';
 import { NavigationDirection, NavigationAction } from '@mobile-lab/shared';
 import { useSwipeGestures } from '../hooks/useSwipeGestures';
@@ -17,17 +17,13 @@ export function SquareController({ onNavigate, onAction }: SquareControllerProps
   const [showFeedback, setShowFeedback] = useState(false);
   const [edgePress, setEdgePress] = useState<NavigationDirection | null>(null);
   const [ripplePosition, setRipplePosition] = useState<{ x: number; y: number } | null>(null);
-  const [showDebugPanel, setShowDebugPanel] = useState(true);
 
-  // Voice input for visual feedback
-  const { volume, isListening, error } = useVoiceInput({
+  // Voice input for visual feedback (wave animation)
+  const { volume, isListening } = useVoiceInput({
     enabled: true,
     smoothingFactor: 0.85,
     testMode: false  // Now using HTTPS, real microphone enabled
   });
-
-  // Log voice input status for debugging
-  console.log('[SquareController] Voice status:', { volume, isListening, error });
 
   const handleSwipe = (direction: NavigationDirection) => {
     setLastSwipe(direction);
@@ -102,54 +98,8 @@ export function SquareController({ onNavigate, onAction }: SquareControllerProps
 
   return (
     <>
-      {/* Voice-activated glowing edge effect */}
+      {/* Voice-activated wave effect */}
       <VoiceGlow volume={volume} isActive={isListening} />
-
-      {/* Debug panel - hidden for production */}
-      {/* Uncomment to show debug panel for development */}
-      {/*
-      <button
-        onTouchStart={(e) => {
-          e.preventDefault();
-          setShowDebugPanel(!showDebugPanel);
-        }}
-        className="fixed top-4 right-4 w-12 h-12 bg-black/80 backdrop-blur-md text-white rounded-full z-50 flex items-center justify-center text-xl shadow-lg active:scale-95 transition-transform"
-      >
-        {showDebugPanel ? '✕' : '📊'}
-      </button>
-
-      {showDebugPanel && (
-        <div className="fixed top-4 left-4 right-20 bg-black/80 backdrop-blur-md text-white p-4 rounded-lg z-50 text-sm">
-          <div className="font-bold mb-2">Voice Debug</div>
-          <div className="flex items-center gap-2 mb-2">
-            <div className="w-3 h-3 rounded-full" style={{ backgroundColor: isListening ? '#10b981' : '#ef4444' }}></div>
-            <span>{isListening ? 'Microphone Active' : 'Microphone Inactive'}</span>
-          </div>
-          {error && (
-            <div className="text-red-300 text-xs mb-2">
-              Error: {error}
-            </div>
-          )}
-          <div className="space-y-1">
-            <div className="flex justify-between text-xs">
-              <span>Volume:</span>
-              <span>{(volume * 100).toFixed(0)}%</span>
-            </div>
-            <div className="w-full h-8 bg-gray-700 rounded-lg overflow-hidden">
-              <div
-                className="h-full transition-all duration-75"
-                style={{
-                  width: `${volume * 100}%`,
-                  background: `linear-gradient(90deg,
-                    hsl(${120 - volume * 120}, 80%, 50%),
-                    hsl(${180 + volume * 180}, 80%, 50%))`,
-                }}
-              />
-            </div>
-          </div>
-        </div>
-      )}
-      */}
 
       <div className="flex flex-col items-center justify-center h-full py-8 px-2" style={{ backgroundColor: '#00001f' }}>
         {/* Square Trackpad Area with Invisible Edge Zones */}

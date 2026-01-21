@@ -51,7 +51,7 @@ export function VoiceGlow({ volume, isActive }: VoiceGlowProps) {
   // Generate wave path (sine wave)
   const generateWavePath = () => {
     const width = 100; // viewport width percentage
-    const height = 150; // Height in pixels to cover safe area
+    const height = 190; // Height in pixels to cover wave + home indicator area
     const frequency = 2; // Number of wave cycles
     const points: string[] = [];
 
@@ -62,10 +62,11 @@ export function VoiceGlow({ volume, isActive }: VoiceGlowProps) {
     points.push(`L ${width},${height}`);
 
     // Generate wave curve from right to left (top edge of wave)
+    // Wave positioned 40px from bottom to account for home indicator
     for (let x = width; x >= 0; x -= 0.5) {
       const radians = ((x / width) * frequency * 360 + waveOffset) * (Math.PI / 180);
-      // Wave extends upward from bottom, using amplitude for peaks
-      const y = height - amplitude - Math.sin(radians) * amplitude * 0.5;
+      // Wave extends upward from 40px above bottom, using amplitude for peaks
+      const y = height - 40 - amplitude - Math.sin(radians) * amplitude * 0.5;
       points.push(`L ${x},${y}`);
     }
 
@@ -79,16 +80,16 @@ export function VoiceGlow({ volume, isActive }: VoiceGlowProps) {
     <div
       className="fixed pointer-events-none z-50"
       style={{
-        bottom: '40px', // Move up 40px from bottom
+        bottom: 0, // Extend all the way to screen bottom
         left: 0,
         right: 0,
-        height: '150px',
+        height: '190px', // Taller to include home indicator area
       }}
     >
       {/* Wave visualization at bottom */}
       <svg
         className="absolute bottom-0 left-0 w-full h-full"
-        viewBox="0 0 100 150"
+        viewBox="0 0 100 190"
         preserveAspectRatio="none"
         style={{
           filter: `blur(${blur}px)`,
