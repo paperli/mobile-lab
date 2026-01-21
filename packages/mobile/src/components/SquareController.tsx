@@ -194,7 +194,7 @@ export function SquareController({ onNavigate, onAction }: SquareControllerProps
           )}
         </div>
 
-        {/* Back Button */}
+        {/* Circular Back Button - 80x80px */}
         <button
           onTouchStart={(e) => {
             e.preventDefault();
@@ -214,7 +214,7 @@ export function SquareController({ onNavigate, onAction }: SquareControllerProps
             background: 'rgba(255, 255, 255, 0.06)',
           }}
         >
-          <Undo2 size={28} strokeWidth={2.5} />
+          <Undo2 size={36} strokeWidth={2.5} />
         </button>
       </div>
     </>
