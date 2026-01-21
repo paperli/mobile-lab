@@ -3,9 +3,16 @@ import { useEffect, useState } from 'react';
 interface VoiceGlowProps {
   volume: number; // 0-1 range
   isActive: boolean;
+  minOpacity?: number; // Minimum opacity at silence (default: 0.4)
+  maxOpacity?: number; // Maximum opacity at loud volume (default: 0.95)
 }
 
-export function VoiceGlow({ volume, isActive }: VoiceGlowProps) {
+export function VoiceGlow({
+  volume,
+  isActive,
+  minOpacity = 0.4,
+  maxOpacity = 0.95
+}: VoiceGlowProps) {
   const [hueOffset, setHueOffset] = useState(0);
   const [waveOffset, setWaveOffset] = useState(0);
 
@@ -43,9 +50,9 @@ export function VoiceGlow({ volume, isActive }: VoiceGlowProps) {
   // Calculate glow intensity based on volume with ease-out curve
   // Apply ease-out cubic: starts fast, slows down at the end
   const easedVolume = 1 - Math.pow(1 - volume, 3);
-  // Min opacity: 0.4 (more visible at low volume)
-  // Max opacity: 0.95 (brighter at loud volume)
-  const opacity = 0.4 + (easedVolume * 0.55);
+  // Calculate opacity range based on props
+  const opacityRange = maxOpacity - minOpacity;
+  const opacity = minOpacity + (easedVolume * opacityRange);
 
   // Calculate blur amount based on volume
   // Min blur: 30px, Max blur: 70px (less blur at silence for more definition)
