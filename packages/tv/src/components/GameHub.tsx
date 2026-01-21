@@ -62,7 +62,6 @@ export function GameHub({ roomCode, focusedIndex, bounceDirection, isPressing, o
             <GameTile
               key={game.id}
               game={game}
-              isActive={index === focusedIndex}
               isPressing={isPressing && index === focusedIndex}
               onClick={() => onFocusChange(index)}
             />

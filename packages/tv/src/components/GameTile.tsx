@@ -2,12 +2,11 @@ import { GameData } from '@mobile-lab/shared';
 
 interface GameTileProps {
   game: GameData;
-  isActive: boolean;
   isPressing: boolean;
   onClick?: () => void;
 }
 
-export function GameTile({ game, isActive, isPressing, onClick }: GameTileProps) {
+export function GameTile({ game, isPressing, onClick }: GameTileProps) {
   return (
     <button
       onClick={onClick}

@@ -7,10 +7,9 @@ import { JoystickController } from './components/JoystickController';
 import { GamepadController } from './components/GamepadController';
 import { TrackpadController } from './components/TrackpadController';
 import { SquareController } from './components/SquareController';
-import { ControllerSelector } from './components/ControllerSelector';
 
 function App() {
-  const { connectionStatus, isPaired, roomCode, joinRoom, sendNavigationInput } = useSocket();
+  const { connectionStatus, isPaired, joinRoom, sendNavigationInput } = useSocket();
   const [controllerMode, setControllerMode] = useState<ControllerMode>('square-hybrid');
   const [isConnecting, setIsConnecting] = useState(false);
   const [error, setError] = useState<string>();
@@ -21,12 +20,6 @@ function App() {
     if (savedMode === 'dpad' || savedMode === 'trackpad' || savedMode === 'gamepad' || savedMode === 'hybrid' || savedMode === 'square-hybrid') {
       setControllerMode(savedMode);
     }
-  }, []);
-
-  // Save controller mode preference
-  const handleModeChange = useCallback((mode: ControllerMode) => {
-    setControllerMode(mode);
-    localStorage.setItem('controllerMode', mode);
   }, []);
 
   const handlePair = useCallback(

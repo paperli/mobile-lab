@@ -14,9 +14,12 @@
     "build": "npm run build --workspaces",
     "build:tv": "npm run build --workspace=packages/tv",
     "build:mobile": "npm run build --workspace=packages/mobile",
-    "build:server": "npm run build --workspace=packages/server"
+    "build:server": "npm run build --workspace=packages/server",
+    "typecheck": "npm run typecheck --workspaces --if-present",
+    "prepare": "husky"
   },
   "devDependencies": {
-    "concurrently": "^8.2.2"
+    "concurrently": "^8.2.2",
+    "husky": "^9.1.7"
   }
 }

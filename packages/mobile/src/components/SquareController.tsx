@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react';
+import { useState } from 'react';
 import { Undo2 } from 'lucide-react';
 import { NavigationDirection, NavigationAction } from '@mobile-lab/shared';
 import { useSwipeGestures } from '../hooks/useSwipeGestures';

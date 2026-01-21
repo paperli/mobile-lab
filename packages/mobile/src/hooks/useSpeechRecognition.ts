@@ -197,9 +197,11 @@ export function useSpeechRecognition(
       }
 
       // Start recognition
-      console.log('[SpeechRecognition] Calling recognition.start()...');
-      recognitionRef.current.start();
-      console.log('[SpeechRecognition] recognition.start() called successfully');
+      if (recognitionRef.current) {
+        console.log('[SpeechRecognition] Calling recognition.start()...');
+        recognitionRef.current.start();
+        console.log('[SpeechRecognition] recognition.start() called successfully');
+      }
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : 'Failed to start speech recognition';
       setError(errorMessage);
