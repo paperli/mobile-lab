@@ -16,7 +16,7 @@
     "build:mobile": "npm run build --workspace=packages/mobile",
     "build:server": "npm run build --workspace=packages/server",
     "typecheck": "npm run typecheck --workspaces --if-present",
-    "prepare": "husky"
+    "prepare": "husky || true"
   },
   "devDependencies": {
     "concurrently": "^8.2.2",
