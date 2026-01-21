@@ -43,9 +43,9 @@ export function VoiceGlow({ volume, isActive }: VoiceGlowProps) {
   // Calculate glow intensity based on volume with ease-out curve
   // Apply ease-out cubic: starts fast, slows down at the end
   const easedVolume = 1 - Math.pow(1 - volume, 3);
-  // Min opacity: 0.35 (darker at silence to blend with background)
+  // Min opacity: 0.4 (more visible at low volume)
   // Max opacity: 0.95 (brighter at loud volume)
-  const opacity = 0.35 + (easedVolume * 0.60);
+  const opacity = 0.4 + (easedVolume * 0.55);
 
   // Calculate blur amount based on volume
   // Min blur: 30px, Max blur: 70px (less blur at silence for more definition)
