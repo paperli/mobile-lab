@@ -4,6 +4,7 @@ import { GameTile } from './GameTile';
 import { GamePreview } from './GamePreview';
 import { FocusFrame } from './FocusFrame';
 import { useKeyboardNav } from '../hooks/useKeyboardNav';
+import { getMobileUrl } from '../utils/getMobileUrl';
 
 interface GameHubProps {
   roomCode: string;
@@ -17,7 +18,7 @@ interface GameHubProps {
 
 export function GameHub({ roomCode, focusedIndex, bounceDirection, isPressing, onNavigate, onAction, onFocusChange }: GameHubProps) {
   const games = PLACEHOLDER_GAMES as unknown as GameData[];
-  const mobileBaseUrl = import.meta.env.VITE_MOBILE_URL || 'http://localhost:5174';
+  const mobileBaseUrl = getMobileUrl();
   const mobileUrl = `${mobileBaseUrl}?code=${roomCode}`;
 
   // Setup keyboard navigation
