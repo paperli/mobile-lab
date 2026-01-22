@@ -75,17 +75,6 @@ export function GameHub({ roomCode, focusedIndex, bounceDirection, isPressing, o
           isPressing={isPressing}
         />
       </div>
-
-      {/* Instructions */}
-      <div className="absolute bottom-[2vh] left-[2vw] bg-black/60 backdrop-blur-md rounded-xl px-[1.5vw] py-[1vh] text-white">
-        <div className="text-[0.7vw] text-gray-300">
-          <span className="font-semibold">←→</span> Navigate{' '}
-          <span className="mx-2">|</span>
-          <span className="font-semibold">Enter</span> Select{' '}
-          <span className="mx-2">|</span>
-          <span className="font-semibold">Esc</span> Back
-        </div>
-      </div>
     </div>
   );
 }
