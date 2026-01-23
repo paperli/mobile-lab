@@ -17,8 +17,8 @@ export function FocusFrame({ focusedIndex, totalItems, bounceDirection, isPressi
   const containerPadding = 4; // vw (px-[4vw] on parent)
 
   // Focus frame is larger than tile to create margin
-  const frameMargin = 1; // vw margin on each side
-  const frameWidth = tileWidth + (frameMargin * 2); // 22vw total
+  const frameMargin = 0.5; // vw margin on each side
+  const frameWidth = tileWidth + (frameMargin * 2); // 21vw total
 
   // Calculate tile and frame heights
   const tileHeight = tileWidth * (9 / 16); // 20vw * 9/16 = 11.25vw
