@@ -4,7 +4,27 @@ This guide explains the environment variables used in Mobile Lab and how to conf
 
 ## Quick Start
 
-Environment variables are **optional** - the application works with sensible defaults and auto-detection. Pre-configured `.env` files are already included in the repository.
+Environment variables are **automatically configured** by the setup script. For most users:
+
+```bash
+./setup-https.sh
+```
+
+This will detect your IP address and update all `.env` files automatically.
+
+## When IP Address Changes
+
+If you switch networks, change machines, or your IP address changes for any reason:
+
+```bash
+./setup-https.sh
+```
+
+The script will regenerate certificates AND update all `.env` files with your new IP.
+
+## Manual Configuration (Usually Not Needed)
+
+Environment variables are pre-configured with sensible defaults. The `.env` files are already created with HTTPS URLs and your local IP address.
 
 ## Environment Variables by Package
 

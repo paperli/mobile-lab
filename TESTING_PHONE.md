@@ -76,16 +76,21 @@ You should see the circular back button on the Square controller layout!
 
 ## What Changed
 
+### Automated Setup Script
+
+The `setup-https.sh` script now automatically:
+1. Detects your current IP address
+2. Generates SSL certificates for that IP
+3. **Updates all .env files** with the correct IP
+
+If you switch networks or machines, just run:
+```bash
+./setup-https.sh
+```
+
 ### Environment Variables
 
-**packages/mobile/.env**:
-```env
-# OLD (doesn't work from phone)
-VITE_SERVER_URL=https://localhost:3000
-
-# NEW (works from phone)
-VITE_SERVER_URL=https://192.168.20.40:3000
-```
+All environment files are automatically updated by the setup script. Manual editing is rarely needed.
 
 ### Socket Connection Logic
 
@@ -93,10 +98,7 @@ Both mobile and TV now auto-detect the protocol (HTTPS vs HTTP) based on how the
 
 ### Server Configuration
 
-Server now allows connections from network IP in ALLOWED_ORIGINS:
-```env
-ALLOWED_ORIGINS=https://localhost:5173,https://localhost:5174,https://192.168.20.40:5173,https://192.168.20.40:5174
-```
+Server ALLOWED_ORIGINS is automatically configured by the setup script.
 
 ## Quick Reference
 

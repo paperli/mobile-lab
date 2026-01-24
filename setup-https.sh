@@ -89,6 +89,40 @@ cp packages/mobile/certs/*.pem packages/tv/certs/
 cp packages/mobile/certs/*.pem packages/server/certs/
 echo "✓ Certificates copied to tv and server packages"
 
+# Update .env files with the new IP address
+echo ""
+echo "📝 Updating .env files with IP address: $LOCAL_IP"
+
+# Function to update or create .env file
+update_env_file() {
+    local env_file=$1
+    local example_file="${env_file}.example"
+
+    # Create .env from .example if it doesn't exist
+    if [ ! -f "$env_file" ] && [ -f "$example_file" ]; then
+        cp "$example_file" "$env_file"
+        echo "  Created $env_file from example"
+    fi
+
+    if [ -f "$env_file" ]; then
+        # Update IP addresses in the file (replace any 192.168.x.x pattern)
+        if [[ "$OSTYPE" == "darwin"* ]]; then
+            # macOS sed requires different syntax
+            sed -i '' "s/192\.168\.[0-9]*\.[0-9]*/$LOCAL_IP/g" "$env_file"
+        else
+            sed -i "s/192\.168\.[0-9]*\.[0-9]*/$LOCAL_IP/g" "$env_file"
+        fi
+        echo "  ✓ Updated $env_file"
+    fi
+}
+
+# Update all .env files
+update_env_file "packages/server/.env"
+update_env_file "packages/tv/.env"
+update_env_file "packages/mobile/.env"
+
+echo "✓ All .env files updated"
+
 # Summary
 echo ""
 echo "=========================================="
@@ -106,6 +140,11 @@ echo "  - packages/mobile/certs/"
 echo "  - packages/tv/certs/"
 echo "  - packages/server/certs/"
 echo ""
+echo "Environment files updated:"
+echo "  - packages/server/.env"
+echo "  - packages/tv/.env"
+echo "  - packages/mobile/.env"
+echo ""
 echo "Next steps:"
 echo "  1. Start the development servers: npm run dev"
 echo "  2. Look for '🔒 Using HTTPS with SSL certificates' in the logs"
@@ -116,5 +155,10 @@ echo "     - Server: https://localhost:3000 or https://$LOCAL_IP:3000"
 echo "  4. Accept certificate warnings in your browser (safe for local dev)"
 echo "  5. Grant microphone permission for voice features"
 echo ""
-echo "Note: If your IP address changes, re-run this script to generate new certificates."
+echo "📱 For mobile device testing:"
+echo "  1. Install mkcert CA certificate on your phone (see CLAUDE.md)"
+echo "  2. Access https://$LOCAL_IP:5174 from your phone"
+echo ""
+echo "Note: If your IP address changes (e.g., switching networks or machines),"
+echo "      just re-run this script: ./setup-https.sh"
 echo ""

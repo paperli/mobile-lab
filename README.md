@@ -71,24 +71,7 @@ HTTPS is required for accessing device features like the microphone. To enable H
 
 #### Quick Setup (Recommended)
 
-Run the automated setup script:
-
-```bash
-# Make sure mkcert is installed first (see below)
-./setup-https.sh
-```
-
-The script will:
-- Install the mkcert root certificate
-- Auto-detect your local IP address
-- Generate SSL certificates for localhost and your network
-- Copy certificates to all packages
-
-#### Manual Setup
-
-If you prefer manual setup or need to troubleshoot:
-
-1. **Install mkcert**:
+1. **Install mkcert** (one-time):
    ```bash
    # macOS
    brew install mkcert
@@ -105,7 +88,30 @@ If you prefer manual setup or need to troubleshoot:
    ./setup-https.sh
    ```
 
-Or follow the manual steps in `packages/mobile/certs/README.md`.
+The script will automatically:
+- Install the mkcert root certificate
+- Auto-detect your local IP address
+- Generate SSL certificates for localhost and your network
+- Copy certificates to all packages
+- **Update all `.env` files** with your IP address
+
+#### When Switching Machines or Networks
+
+If your IP address changes (new WiFi, new machine), just re-run:
+
+```bash
+./setup-https.sh
+```
+
+The script handles everything - no manual `.env` editing needed.
+
+#### Mobile Device Certificate Trust
+
+To test on real phones without certificate warnings, install the mkcert CA certificate:
+
+**iOS**: See `CLAUDE.md` for detailed steps (Settings → Profile → Certificate Trust Settings)
+
+**Android**: Settings → Security → Install certificate, or use Chrome's "Proceed anyway" option
 
 **Note**: If certificates are not found, services will run in HTTP mode, but voice features requiring microphone access will not work.
 
